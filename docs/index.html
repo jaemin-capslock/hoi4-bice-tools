@@ -551,6 +551,9 @@ function autoEquip(batId,year){
 var COMBAT_STATS=['soft_attack','hard_attack','air_attack','defense','breakthrough',
   'ap_attack','armor_value','hardness','reliability','maximum_speed',
   'additional_collateral_damage','suppression','build_cost_ic','fuel_consumption'];
+var TERRAIN_KEYS=['desert','plains','forest','hills','mountain','jungle','marsh','urban','densecity','capital','river','fort','amphibious'];
+var TERRAIN_SUB=['attack','defence','movement'];
+var TERRAIN_LABELS={desert:'Desert',plains:'Plains',forest:'Forest',hills:'Hills',mountain:'Mountain',jungle:'Jungle',marsh:'Marsh',urban:'Urban',densecity:'Dense City',capital:'Capital',river:'River',fort:'Fort',amphibious:'Amphibious'};
 
 function calcRawStats(bat,assignment){
   var stats={};for(var i=0;i<COMBAT_STATS.length;i++){var s=COMBAT_STATS[i];stats[s]=bat[s]||0}
@@ -580,6 +583,8 @@ function computeDivision(){
   var useDoc=mod&&(mod.category_mult||mod.category_flat);
   var tot={hp:0,width:0,manpower:0,weight:0,supply:0,training:0,sa:0,ha:0,aa:0,collateral:0,suppression:0,ic:0,defense:0,bt:0};
   var wOrg=0,wHard=0,speeds=[],warnings=[];
+  var terrainAcc={},totalLineWidth=0;
+  for(var ti=0;ti<TERRAIN_KEYS.length;ti++){var tk=TERRAIN_KEYS[ti];terrainAcc[tk]={attack:0,defence:0,movement:0}}
   for(var i=0;i<divUnits.length;i++){var unit=divUnits[i];
     var bat=batIndex[unit.type];
     if(!bat){warnings.push('Unknown: '+unit.type);continue}
@@ -596,6 +601,9 @@ function computeDivision(){
     tot.bt+=count*(bs.breakthrough||0);tot.collateral+=count*(bs.additional_collateral_damage||0);
     tot.suppression+=count*(bs.suppression||0);tot.ic+=count*(bs.build_cost_ic||0);
     var mpW=count*mp;wOrg+=mpW*org;wHard+=mpW*(bs.hardness||0);
+    if(!unit.support&&width>0){var btTerr=bat.terrain||{};var wC=count*width;totalLineWidth+=wC;
+      for(var ti2=0;ti2<TERRAIN_KEYS.length;ti2++){var tk2=TERRAIN_KEYS[ti2];var td=btTerr[tk2]||{};
+        for(var si=0;si<TERRAIN_SUB.length;si++){var sk=TERRAIN_SUB[si];terrainAcc[tk2][sk]+=wC*(td[sk]||0)}}}
     if(!unit.support&&bat.transport){var tE=assignment[bat.transport]||bat.transport;
       var tEq=eqIndex[tE];if(tEq&&tEq.maximum_speed>0)speeds.push(tEq.maximum_speed)}}
 
@@ -620,6 +628,15 @@ function computeDivision(){
       if(typeof dv==='number'){if(dv>0&&dv<1)disp='+'+(dv*100).toFixed(1)+'%';else if(dv<0&&dv>-1)disp=(dv*100).toFixed(1)+'%';else disp=(dv>0?'+':'')+dv.toFixed(2)}else disp=dv;
       html+='<div class="sc"><div class="lb">'+tc(dk)+'</div><div class="vl">'+disp+'</div></div>'}
     html+='</div>'}
+  // Terrain modifiers table
+  if(totalLineWidth>0){
+    html+='<h2>Terrain Modifiers</h2><div style="overflow-x:auto"><table class="data-table" style="font-size:.78rem"><thead><tr><th>Terrain</th><th>Attack</th><th>Defence</th><th>Movement</th></tr></thead><tbody>';
+    for(var ti3=0;ti3<TERRAIN_KEYS.length;ti3++){var tk3=TERRAIN_KEYS[ti3];
+      var ta=terrainAcc[tk3].attack/totalLineWidth,td2=terrainAcc[tk3].defence/totalLineWidth,tm=terrainAcc[tk3].movement/totalLineWidth;
+      if(Math.abs(ta)<0.0001&&Math.abs(td2)<0.0001&&Math.abs(tm)<0.0001)continue;
+      var fmtT=function(v){if(Math.abs(v)<0.0001)return'<span style="color:var(--dim)">—</span>';var p=(v*100).toFixed(1);var c=v>0?'#4caf50':'#f44336';return'<span style="color:'+c+';font-weight:600">'+(v>0?'+':'')+p+'%</span>'};
+      html+='<tr><td>'+TERRAIN_LABELS[tk3]+'</td><td class="n">'+fmtT(ta)+'</td><td class="n">'+fmtT(td2)+'</td><td class="n">'+fmtT(tm)+'</td></tr>'}
+    html+='</tbody></table></div>'}
   document.getElementById('div-results').innerHTML=html}
 </script>
 </body>
