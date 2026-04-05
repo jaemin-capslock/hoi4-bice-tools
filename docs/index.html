@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BICE Division Stats Calculator</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-dim: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --red: #f85149;
+      --gold: #d29922;
+      --orange: #d18616;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a1f2b 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-dim);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+    .hero-badges {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .badge.equip { color: var(--accent); }
+    .badge.bat { color: var(--green); }
+    .badge.tank { color: var(--gold); }
+    .badge.test { color: var(--orange); }
+    .cta-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    .btn-primary:hover { filter: brightness(1.15); }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent); }
+
+    /* ── Container ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Section ── */
+    section { padding: 4rem 0; }
+    section + section { border-top: 1px solid var(--border); }
+    section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+    section h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+      color: var(--accent);
+    }
+    section p, section li {
+      color: var(--text-dim);
+      max-width: 700px;
+    }
+
+    /* ── Feature Grid ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: var(--accent); }
+    .feature-card .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .feature-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    /* ── Modules Table ── */
+    .mod-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+    .mod-table th, .mod-table td {
+      padding: 0.6rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .mod-table th {
+      background: var(--surface);
+      color: var(--text-dim);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .mod-table td:first-child code {
+      color: var(--accent);
+      background: rgba(88,166,255,0.1);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+
+    /* ── Code Block ── */
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      margin: 1rem 0;
+    }
+    code {
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    }
+    :not(pre) > code {
+      background: rgba(88,166,255,0.1);
+      color: var(--accent);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+    .kw { color: #ff7b72; }
+    .fn { color: #d2a8ff; }
+    .st { color: #a5d6ff; }
+    .cm { color: #8b949e; }
+    .nb { color: #79c0ff; }
+    .num { color: #f0883e; }
+
+    /* ── Tank Table ── */
+    .tank-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+    .tank-table th, .tank-table td {
+      padding: 0.5rem 0.6rem;
+      text-align: right;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    .tank-table th {
+      background: var(--surface);
+      color: var(--text-dim);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      position: sticky;
+      top: 0;
+    }
+    .tank-table td:first-child {
+      text-align: left;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .tank-table tr:hover { background: rgba(88,166,255,0.05); }
+    .overflow-x { overflow-x: auto; }
+
+    /* ── Aggregation Table ── */
+    .agg-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+    }
+    .agg-table th, .agg-table td {
+      padding: 0.5rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .agg-table th {
+      background: var(--surface);
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .hero h1 { font-size: 2rem; }
+      .hero { padding: 3rem 1rem 2.5rem; }
+      .features { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1>BICE Division Stats Calculator</h1>
+    <p class="subtitle">
+      A Python toolkit for computing and comparing division stats from the
+      <strong>Black ICE</strong> mod for Hearts of Iron IV. Parses Clausewitz
+      scripts directly &mdash; always in sync with your installed mod.
+    </p>
+    <div class="hero-badges">
+      <span class="badge equip">1 500+ Equipment</span>
+      <span class="badge bat">300+ Battalions</span>
+      <span class="badge tank">60+ Tank Designs</span>
+      <span class="badge test">123+ Tests</span>
+    </div>
+    <div class="cta-group">
+      <a href="https://github.com/jaemin-capslock/hoi4-bice-tools" class="btn btn-primary">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        View on GitHub
+      </a>
+      <a href="#quickstart" class="btn btn-secondary">Quick Start</a>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Features -->
+    <section id="features">
+      <h2>Features</h2>
+      <div class="features">
+        <div class="feature-card">
+          <div class="icon">&#9881;</div>
+          <h3>Clausewitz Parser</h3>
+          <p>Parses HOI4 mod files directly. Equipment DB (1 500+ entries) and battalion DB (300+ types) built from source &mdash; always accurate to your mod version.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">&#9876;</div>
+          <h3>Division Calculator</h3>
+          <p>Full division stat aggregation matching HOI4 formulas. Supports line battalions, support companies, and category-aware doctrine modifiers.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">&#128736;</div>
+          <h3>Tank Designer (TRM)</h3>
+          <p>Modular Tank Rework system with 1 136 modules. 60+ pre-built German historical designs from PzKpfw I to Maus.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">&#128202;</div>
+          <h3>Flask Web UI</h3>
+          <p>Interactive browser with equipment/battalion tables, real-time division designer with drag-and-drop, stat computation, and icon rendering.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">&#128209;</div>
+          <h3>Excel Export</h3>
+          <p>Generate styled workbooks with division comparisons, equipment references, and battalion data with color-coded heat maps.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">&#128736;</div>
+          <h3>Doctrine System</h3>
+          <p>WW1 doctrine presets with 55 cumulative techs. Category-aware multiplicative/additive stacking matching HOI4 internals.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section id="quickstart">
+      <h2>Quick Start</h2>
+      <pre><code><span class="cm"># Install dependencies</span>
+pip install openpyxl flask pillow
+
+<span class="cm"># Generate Excel workbook</span>
+python bice_stats_gen.py          <span class="cm"># → ~/Desktop/BICE_Stats.xlsx</span>
+
+<span class="cm"># Launch web UI</span>
+python app.py                     <span class="cm"># → http://127.0.0.1:5000</span>
+
+<span class="cm"># Run tests</span>
+python test_bice.py -v            <span class="cm"># 123+ tests</span></code></pre>
+    </section>
+
+    <!-- Modules -->
+    <section id="modules">
+      <h2>Modules</h2>
+      <div class="overflow-x">
+        <table class="mod-table">
+          <thead>
+            <tr><th>File</th><th>Purpose</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>bice_parser.py</code></td><td>HOI4 Clausewitz format parser; builds equipment DB (1 500+ entries) and battalion DB (300+ sub-unit types)</td></tr>
+            <tr><td><code>bice_calc.py</code></td><td>Stat calculator: per-battalion and full-division aggregation with category-aware doctrine modifiers</td></tr>
+            <tr><td><code>bice_models.py</code></td><td>OOP interface: <code>BICEDatabase</code>, <code>BattalionType</code>, <code>EquippedBattalion</code>, <code>Division</code></td></tr>
+            <tr><td><code>bice_doctrines.py</code></td><td>Doctrine modifier presets (WW1 defensive/offensive; extensible for WW2 branches)</td></tr>
+            <tr><td><code>bice_tanks.py</code></td><td>TRM modular tank design system; 60+ German historical designs</td></tr>
+            <tr><td><code>bice_analysis.py</code></td><td>Division efficiency analysis, equipment value scoring, composite metrics</td></tr>
+            <tr><td><code>bice_german_templates.py</code></td><td>Pre-built German division templates (infantry, panzer, motorized, mountain, etc.)</td></tr>
+            <tr><td><code>bice_viz.py</code></td><td>Excel workbook writer with 4 sheets and color-coded styling</td></tr>
+            <tr><td><code>app.py</code></td><td>Flask web UI: equipment browser, battalion reference, tank designs, division designer</td></tr>
+            <tr><td><code>bice_stats_gen.py</code></td><td>CLI entry point: computes all templates and exports Excel workbook</td></tr>
+            <tr><td><code>test_bice.py</code></td><td>123+ unit and integration tests</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- API Usage -->
+    <section id="api">
+      <h2>API Usage</h2>
+
+      <h3>Per-Battalion Stats</h3>
+      <pre><code><span class="kw">from</span> bice_parser <span class="kw">import</span> build_equipment_db, build_battalion_db
+<span class="kw">from</span> bice_calc <span class="kw">import</span> calc_battalion
+
+equip_db = <span class="fn">build_equipment_db</span>()
+bat_db   = <span class="fn">build_battalion_db</span>()
+
+stats = <span class="fn">calc_battalion</span>(
+    <span class="st">"infantry"</span>,
+    [<span class="st">"infantry_equipment_2"</span>, <span class="st">"infantry_uniforms_2"</span>],
+    bat_db, equip_db,
+)
+<span class="cm"># → {"soft_attack": 2.1, "defense": 6.4, "breakthrough": 0.9, ...}</span></code></pre>
+
+      <h3>Division Designer</h3>
+      <pre><code><span class="kw">from</span> bice_models <span class="kw">import</span> BICEDatabase, Division
+<span class="kw">from</span> bice_doctrines <span class="kw">import</span> get_preset
+
+db = <span class="fn">BICEDatabase</span>()
+
+div = (<span class="fn">Division</span>(<span class="st">"9 Inf / 4 Art"</span>, db)
+    .<span class="fn">add_battalion</span>(db.<span class="fn">battalion</span>(<span class="st">"infantry"</span>).<span class="fn">equip_auto</span>(<span class="num">1939</span>), <span class="num">9</span>)
+    .<span class="fn">add_battalion</span>(db.<span class="fn">battalion</span>(<span class="st">"artillery_brigade"</span>).<span class="fn">equip_auto</span>(<span class="num">1939</span>), <span class="num">4</span>)
+    .<span class="fn">add_support</span>(db.<span class="fn">battalion</span>(<span class="st">"DIV_HQ"</span>).<span class="fn">equip</span>(<span class="st">"infantry_uniforms_2"</span>))
+    .<span class="fn">add_support</span>(db.<span class="fn">battalion</span>(<span class="st">"engineer"</span>).<span class="fn">equip_auto</span>(<span class="num">1939</span>)))
+
+stats = div.<span class="fn">compute</span>(<span class="fn">get_preset</span>(<span class="st">"ww1_full"</span>))</code></pre>
+
+      <h3>Tank Designer</h3>
+      <pre><code><span class="kw">from</span> bice_tanks <span class="kw">import</span> build_module_db, inject_tank_designs, GERMAN_TANK_DESIGNS
+
+module_db = <span class="fn">build_module_db</span>()   <span class="cm"># 1 136 tank modules</span>
+
+<span class="kw">for</span> d <span class="kw">in</span> GERMAN_TANK_DESIGNS:
+    stats = d.<span class="fn">compute_stats</span>(equip_db, module_db)
+    <span class="nb">print</span>(<span class="st">f"</span>{d.name}: SA={stats[<span class="st">'soft_attack'</span>]:.1f}<span class="st">"</span>)
+
+<span class="cm"># Inject into equipment DB for division use</span>
+<span class="fn">inject_tank_designs</span>(equip_db, module_db=module_db)</code></pre>
+    </section>
+
+    <!-- Aggregation Rules -->
+    <section id="aggregation">
+      <h2>Division Stat Aggregation</h2>
+      <p>These rules match HOI4's internal formulas:</p>
+      <div class="overflow-x">
+        <table class="agg-table">
+          <thead>
+            <tr><th>Stat</th><th>Rule</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>HP, Soft Attack, Hard Attack, Air Attack, IC Cost</td><td>Sum across all battalions (count &times; stat)</td></tr>
+            <tr><td>Organization, Defense, Breakthrough, Hardness</td><td>Weighted average by battalion manpower</td></tr>
+            <tr><td>Speed</td><td>Minimum across non-support transport equipment</td></tr>
+            <tr><td>Combat Width</td><td>Sum (support companies contribute 0)</td></tr>
+            <tr><td>Training Time</td><td>Maximum across all battalions</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tank Designs -->
+    <section id="tanks">
+      <h2>German Tank Designs</h2>
+      <p>60+ historical designs computed from the TRM modular system:</p>
+      <div class="overflow-x">
+        <table class="tank-table">
+          <thead>
+            <tr><th style="text-align:left">Name</th><th>Class</th><th>SA</th><th>HA</th><th>AP</th><th>Armor</th><th>Hard%</th><th>Speed</th><th>IC</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>PzKpfw I A</td><td>Light</td><td>4.2</td><td>1.2</td><td>3.0</td><td>11.8</td><td>66%</td><td>8.7</td><td>10.8</td></tr>
+            <tr><td>PzKpfw II A</td><td>Light</td><td>6.3</td><td>3.3</td><td>14.1</td><td>13.6</td><td>69%</td><td>10.5</td><td>15.6</td></tr>
+            <tr><td>PzKpfw III E</td><td>Medium</td><td>7.4</td><td>5.7</td><td>19.6</td><td>20.0</td><td>72%</td><td>11.9</td><td>22.3</td></tr>
+            <tr><td>PzKpfw III J</td><td>Medium</td><td>8.9</td><td>10.9</td><td>32.6</td><td>29.0</td><td>76%</td><td>11.1</td><td>25.6</td></tr>
+            <tr><td>PzKpfw IV D</td><td>Medium</td><td>9.7</td><td>5.7</td><td>16.6</td><td>20.0</td><td>72%</td><td>11.5</td><td>24.7</td></tr>
+            <tr><td>PzKpfw IV F2</td><td>Medium</td><td>11.6</td><td>14.4</td><td>40.6</td><td>29.0</td><td>76%</td><td>10.7</td><td>28.2</td></tr>
+            <tr><td>PzKpfw IV H</td><td>Medium</td><td>11.8</td><td>15.1</td><td>42.6</td><td>40.8</td><td>80%</td><td>10.0</td><td>30.2</td></tr>
+            <tr><td>StuG III G</td><td>Medium (AG)</td><td>10.6</td><td>13.8</td><td>40.6</td><td>40.8</td><td>80%</td><td>10.0</td><td>26.7</td></tr>
+            <tr><td>Panther D</td><td>Med. Adv.</td><td>13.9</td><td>23.0</td><td>121.8</td><td>41.7</td><td>82%</td><td>13.3</td><td>39.4</td></tr>
+            <tr><td>Panther G</td><td>Med. Adv.</td><td>13.9</td><td>23.0</td><td>121.8</td><td>41.7</td><td>82%</td><td>13.3</td><td>39.8</td></tr>
+            <tr><td>Neubaufahrzeug</td><td>Heavy</td><td>10.4</td><td>7.1</td><td>36.1</td><td>14.9</td><td>70%</td><td>10.9</td><td>25.4</td></tr>
+            <tr><td>Tiger I</td><td>Heavy</td><td>16.0</td><td>19.3</td><td>47.8</td><td>47.9</td><td>81%</td><td>12.5</td><td>44.4</td></tr>
+            <tr><td>Tiger II</td><td>Heavy</td><td>17.6</td><td>29.9</td><td>148.9</td><td>65.2</td><td>86%</td><td>11.4</td><td>51.3</td></tr>
+            <tr><td>Maus</td><td>Superheavy</td><td>20.0</td><td>35.0</td><td>148.9</td><td>100.0</td><td>95%</td><td>5.2</td><td>80.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Doctrine Presets -->
+    <section id="doctrines">
+      <h2>Doctrine Presets</h2>
+      <p>WW1-era cumulative bonuses (defensive picks):</p>
+      <div class="overflow-x">
+        <table class="tank-table">
+          <thead>
+            <tr><th style="text-align:left">Category</th><th>Defense</th><th>Breakthrough</th><th>Soft Attack</th><th>Hard Attack</th><th>Flat Org</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>All Infantry</td><td>+50%</td><td>+19%</td><td>&mdash;</td><td>+10%</td><td>+5</td></tr>
+            <tr><td>Light Infantry</td><td>&mdash;</td><td>+19%</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+            <tr><td>Artillery</td><td>+35%</td><td>+35%</td><td>+30%</td><td>&mdash;</td><td>+2</td></tr>
+            <tr><td>All Armor</td><td>+30%</td><td>+38%</td><td>+30%</td><td>+30%</td><td>+6</td></tr>
+            <tr><td>Cavalry</td><td>+5%</td><td>+5%</td><td>+10%</td><td>&mdash;</td><td>+10</td></tr>
+            <tr><td>DIV HQ</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>+10</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Installation -->
+    <section id="install">
+      <h2>Requirements</h2>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 0.5rem;">&#10003; Python 3.10+</li>
+        <li style="margin-bottom: 0.5rem;">&#10003; Hearts of Iron IV with <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1851181613" style="color: var(--accent);">Black ICE mod</a> installed</li>
+        <li style="margin-bottom: 0.5rem;">&#10003; <code>openpyxl</code> &mdash; Excel export</li>
+        <li style="margin-bottom: 0.5rem;">&#10003; <code>flask</code> &mdash; Web UI</li>
+        <li style="margin-bottom: 0.5rem;">&#10003; <code>pillow</code> &mdash; Icon rendering (TGA&rarr;PNG)</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <footer>
+    <p>
+      Built for the <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1851181613">Black ICE</a> community &bull;
+      <a href="https://github.com/jaemin-capslock/hoi4-bice-tools">Source on GitHub</a>
+    </p>
+  </footer>
+
+</body>
+</html>
