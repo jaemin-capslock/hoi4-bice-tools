@@ -14,66 +14,87 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden}
-a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+a{color:var(--accent);text-decoration:none;cursor:pointer}a:hover{text-decoration:underline}
 
-/* ── Nav ── */
+/* Nav */
 nav{background:var(--surface);padding:.5rem 1.2rem;display:flex;gap:1.2rem;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 nav .brand{font-weight:700;font-size:1rem;color:var(--gold);white-space:nowrap}
 nav a{color:var(--dim);font-size:.85rem;transition:color .15s;white-space:nowrap}
 nav a:hover,nav a.active{color:var(--accent);text-decoration:none}
 .nav-right{margin-left:auto;font-size:.75rem;color:var(--dim)}
 
-/* ── Layout ── */
-.container{max-width:1400px;margin:0 auto;padding:1.2rem}
+/* Layout */
+.container{max-width:1440px;margin:0 auto;padding:1.2rem}
 .hidden{display:none!important}
 h1{font-size:1.3rem;margin-bottom:.8rem;color:var(--gold)}
 h2{font-size:1rem;margin:1rem 0 .5rem;color:var(--green)}
 
-/* ── Tables ── */
+/* Tables */
 table{width:100%;border-collapse:collapse;font-size:.8rem}
 th,td{padding:.3rem .5rem;text-align:left;border-bottom:1px solid #1e2636}
 th{background:var(--surface2);color:var(--accent);position:sticky;top:37px;font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;z-index:10}
 td.n{text-align:right;font-variant-numeric:tabular-nums}
 tr:hover{background:rgba(88,166,255,.04)}
+.icon-cell{width:28px;text-align:center}
+.icon-cell img{height:22px;vertical-align:middle}
 
-/* ── Filters ── */
+/* Filters */
 .filters{display:flex;gap:.5rem;margin-bottom:.8rem;flex-wrap:wrap;align-items:center}
 input,select,button{font-size:.82rem;padding:.35rem .6rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:4px;outline:none}
 input:focus,select:focus{border-color:var(--accent)}
-button{cursor:pointer;transition:all .15s}
-button:hover{border-color:var(--accent);background:var(--surface2)}
+button{cursor:pointer;transition:all .15s}button:hover{border-color:var(--accent);background:var(--surface2)}
 button.primary{background:var(--accent);color:var(--bg);font-weight:600;border-color:var(--accent)}
 button.primary:hover{filter:brightness(1.15)}
 .count{color:var(--dim);font-size:.8rem}
 
-/* ── Stat Cards ── */
+/* Stat Cards */
 .stat-cards{display:flex;flex-wrap:wrap;gap:.3rem;margin:.5rem 0}
 .sc{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.5rem .8rem;min-width:100px}
 .sc .lb{font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.03em}
 .sc .vl{font-size:1.15rem;font-weight:700}
 
-/* ── Tags ── */
+/* Tags */
 .tag{display:inline-block;background:var(--surface2);border:1px solid var(--border);padding:.1rem .4rem;border-radius:3px;font-size:.7rem;margin:.1rem;white-space:nowrap}
 .tag.sup{background:rgba(188,140,255,.15);border-color:var(--purple);color:var(--purple)}
 
-/* ── Grid ── */
+/* Grid */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
 @media(max-width:900px){.grid-2{grid-template-columns:1fr}}
 
-/* ── Division Designer ── */
-.bat-picker{max-height:340px;overflow-y:auto;border:1px solid var(--border);border-radius:4px;background:var(--surface)}
+/* Division Designer */
+.bat-picker{max-height:320px;overflow-y:auto;border:1px solid var(--border);border-radius:4px;background:var(--surface)}
 .bat-row{display:flex;align-items:center;gap:.4rem;padding:.2rem .5rem;cursor:pointer;font-size:.78rem;transition:background .1s}
 .bat-row:hover{background:rgba(88,166,255,.08)}
 .bat-row.sel{background:rgba(63,185,80,.12)}
 .bat-row .bid{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bat-row .meta{color:var(--dim);font-size:.7rem;white-space:nowrap}
+.bat-row img{height:18px;flex-shrink:0}
 .group-hdr{padding:.25rem .5rem;font-size:.7rem;font-weight:700;color:var(--gold);background:rgba(13,17,23,.7);position:sticky;top:0;z-index:5}
-.div-unit{display:flex;align-items:center;gap:.4rem;padding:.25rem .5rem;border-bottom:1px solid var(--border);font-size:.8rem}
-.div-unit .name{flex:1}
-.div-unit button{font-size:.7rem;padding:.15rem .3rem;color:var(--red);background:transparent;border:1px solid var(--red)}
 .warning{color:var(--gold);font-size:.8rem;margin:.2rem 0}
 
-/* ── Loading ── */
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:10px;max-width:900px;width:95%;max-height:90vh;overflow-y:auto;padding:1.5rem;position:relative}
+.modal-close{position:absolute;top:.5rem;right:.8rem;font-size:1.3rem;color:var(--dim);cursor:pointer;background:none;border:none;padding:.2rem .4rem}
+.modal-close:hover{color:var(--red)}
+
+/* Slot picker */
+.slot-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.5rem .7rem;margin-bottom:.4rem}
+.slot-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
+.slot-name{font-weight:600;font-size:.85rem}.slot-qty{color:var(--dim);font-size:.75rem}
+.tier-row{display:flex;gap:.25rem;flex-wrap:wrap}
+.tier-btn{padding:.2rem .5rem;border:1px solid var(--border);border-radius:3px;background:var(--surface2);color:var(--text);cursor:pointer;font-size:.72rem;transition:all .12s;white-space:nowrap}
+.tier-btn:hover{border-color:var(--green);background:rgba(63,185,80,.1)}
+.tier-btn.active{background:var(--green);color:var(--bg);border-color:var(--green);font-weight:600}
+.tier-year{font-size:.65rem;color:var(--dim);margin-left:.15rem}
+.tier-btn.active .tier-year{color:rgba(13,17,23,.5)}
+
+/* Template picker */
+.tmpl-row{display:flex;align-items:center;gap:.5rem;padding:.3rem .5rem;cursor:pointer;font-size:.8rem;border-bottom:1px solid var(--border);transition:background .1s}
+.tmpl-row:hover{background:rgba(88,166,255,.08)}
+.tmpl-row .tname{flex:1;font-weight:600}.tmpl-row .tmeta{color:var(--dim);font-size:.72rem}
+
+/* Loading */
 #loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999}
 #loading .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -82,40 +103,40 @@ button.primary:hover{filter:brightness(1.15)}
 </head>
 <body>
 
-<div id="loading"><div class="spinner"></div><p>Loading BICE data (0.7 MB)...</p></div>
+<div id="loading"><div class="spinner"></div><p>Loading BICE data...</p></div>
 
 <nav>
   <span class="brand">BICE Stats</span>
-  <a href="#" data-page="home" class="active">Dashboard</a>
-  <a href="#" data-page="equipment">Equipment</a>
-  <a href="#" data-page="battalions">Battalions</a>
-  <a href="#" data-page="tanks">Tanks</a>
-  <a href="#" data-page="division">Division Designer</a>
+  <a data-page="home" class="active">Dashboard</a>
+  <a data-page="equipment">Equipment</a>
+  <a data-page="battalions">Battalions</a>
+  <a data-page="tanks">Tanks</a>
+  <a data-page="division">Division Designer</a>
   <span class="nav-right">Static build &mdash; data from BICE mod</span>
 </nav>
 
 <div class="container">
 
-<!-- ═══════════════════ HOME ═══════════════════ -->
+<!-- HOME -->
 <div id="page-home" class="page">
   <h1>BICE Division Stats Calculator</h1>
   <div class="stat-cards" id="dash-cards"></div>
   <h2>Quick Links</h2>
   <ul style="list-style:none;padding:0">
-    <li style="margin:.3rem 0"><a href="#" data-page="equipment">Equipment Browser</a> &mdash; search and filter all equipment entries</li>
-    <li style="margin:.3rem 0"><a href="#" data-page="battalions">Battalion Reference</a> &mdash; slots, categories, combat stats for all battalion types</li>
-    <li style="margin:.3rem 0"><a href="#" data-page="tanks">German Tank Designs</a> &mdash; historical designs with computed stats</li>
-    <li style="margin:.3rem 0"><a href="#" data-page="division">Division Designer</a> &mdash; build divisions and compute aggregate stats</li>
+    <li style="margin:.3rem 0"><a data-page="equipment">Equipment Browser</a> &mdash; search and filter all equipment</li>
+    <li style="margin:.3rem 0"><a data-page="battalions">Battalion Reference</a> &mdash; click any battalion for detailed slot picker</li>
+    <li style="margin:.3rem 0"><a data-page="tanks">German Tank Designs</a> &mdash; historical designs with computed stats</li>
+    <li style="margin:.3rem 0"><a data-page="division">Division Designer</a> &mdash; build divisions or load German templates</li>
   </ul>
   <h2>About</h2>
   <p style="color:var(--dim);max-width:700px">
     All data is pre-extracted from the Black ICE mod's Clausewitz script files.
-    The division calculator runs entirely in your browser &mdash; no server needed.
+    The division calculator runs entirely in your browser.
     Source code on <a href="https://github.com/jaemin-capslock/hoi4-bice-tools">GitHub</a>.
   </p>
 </div>
 
-<!-- ═══════════════════ EQUIPMENT ═══════════════════ -->
+<!-- EQUIPMENT -->
 <div id="page-equipment" class="page hidden">
   <h1>Equipment Browser</h1>
   <div class="filters">
@@ -123,13 +144,13 @@ button.primary:hover{filter:brightness(1.15)}
     <select id="eq-family"><option value="">All families</option></select>
     <span class="count" id="eq-count"></span>
   </div>
-  <div style="overflow-x:auto"><table id="eq-table">
+  <div style="overflow-x:auto"><table>
     <thead><tr><th>Name</th><th>Family</th><th>Year</th><th>SA</th><th>HA</th><th>Def</th><th>BT</th><th>AP</th><th>Armor</th><th>Hard%</th><th>Speed</th><th>IC</th><th>Rel%</th></tr></thead>
     <tbody id="eq-body"></tbody>
   </table></div>
 </div>
 
-<!-- ═══════════════════ BATTALIONS ═══════════════════ -->
+<!-- BATTALIONS -->
 <div id="page-battalions" class="page hidden">
   <h1>Battalion Reference</h1>
   <div class="filters">
@@ -137,27 +158,36 @@ button.primary:hover{filter:brightness(1.15)}
     <select id="bat-group"><option value="">All groups</option></select>
     <span class="count" id="bat-count"></span>
   </div>
-  <div style="overflow-x:auto"><table id="bat-table">
-    <thead><tr><th>Name</th><th>Group</th><th>Role</th><th>Width</th><th>MP</th><th>Org</th><th>HP</th><th>SA</th><th>HA</th><th>Def</th><th>BT</th><th>Supply</th><th>Train</th><th>Equipment Slots</th></tr></thead>
+  <div style="overflow-x:auto"><table>
+    <thead><tr><th class="icon-cell"></th><th>Name</th><th>Group</th><th>Role</th><th>Width</th><th>MP</th><th>Org</th><th>HP</th><th>SA</th><th>HA</th><th>Def</th><th>BT</th><th>Supply</th><th>Train</th><th>Equipment Slots</th></tr></thead>
     <tbody id="bat-body"></tbody>
   </table></div>
 </div>
 
-<!-- ═══════════════════ TANKS ═══════════════════ -->
+<!-- TANKS -->
 <div id="page-tanks" class="page hidden">
   <h1>German Tank Designs</h1>
   <p style="color:var(--dim);margin-bottom:.8rem">Stats computed from chassis + TRM modules.</p>
   <div style="overflow-x:auto"><table>
-    <thead><tr><th>Name</th><th>Class</th><th>Year</th><th>SA</th><th>HA</th><th>Def</th><th>BT</th><th>AP</th><th>Armor</th><th>Hard%</th><th>Speed</th><th>IC</th><th>Rel%</th></tr></thead>
+    <thead><tr><th class="icon-cell"></th><th>Name</th><th>Class</th><th>Year</th><th>SA</th><th>HA</th><th>Def</th><th>BT</th><th>AP</th><th>Armor</th><th>Hard%</th><th>Speed</th><th>IC</th><th>Rel%</th></tr></thead>
     <tbody id="tank-body"></tbody>
   </table></div>
 </div>
 
-<!-- ═══════════════════ DIVISION DESIGNER ═══════════════════ -->
+<!-- DIVISION DESIGNER -->
 <div id="page-division" class="page hidden">
   <h1>Division Designer</h1>
   <div class="grid-2">
     <div>
+      <!-- Template presets -->
+      <h2>German Templates</h2>
+      <div class="filters" style="margin-bottom:.3rem">
+        <select id="tmpl-category" onchange="filterTemplates()"><option value="">All</option></select>
+        <button onclick="loadTemplate()">Load Selected</button>
+        <button onclick="clearDivision()" style="color:var(--red);border-color:var(--red)">Clear</button>
+      </div>
+      <div id="tmpl-list" style="max-height:140px;overflow-y:auto;border:1px solid var(--border);border-radius:4px;background:var(--surface);margin-bottom:.8rem"></div>
+
       <h2>Battalion Picker</h2>
       <div class="filters" style="margin-bottom:.4rem">
         <input id="div-bat-search" placeholder="Search..." style="flex:1" oninput="filterDivBats()">
@@ -172,8 +202,10 @@ button.primary:hover{filter:brightness(1.15)}
         <button onclick="addUnit(false)">+ Line</button>
         <button onclick="addUnit(true)">+ Support</button>
       </div>
+
       <h2 style="margin-top:.8rem">Division Template</h2>
       <div id="div-list"><p style="color:var(--dim);font-style:italic">No units added yet.</p></div>
+
       <h2>Doctrine</h2>
       <select id="div-doctrine"></select>
       <div style="margin-top:.6rem">
@@ -189,508 +221,404 @@ button.primary:hover{filter:brightness(1.15)}
 
 </div><!-- /container -->
 
+<!-- Battalion Detail Modal -->
+<div id="bat-modal" class="modal-overlay hidden" onclick="if(event.target===this)closeBatModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeBatModal()">&times;</button>
+    <div id="bat-modal-content"></div>
+  </div>
+</div>
+
 <script>
-/* ══════════════════════════════════════════════
-   BICE STATIC CALCULATOR
-   All calculation logic ported from bice_calc.py
-   ══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   BICE STATIC CALCULATOR v2
+   ═══════════════════════════════════════════ */
+var DB=null, eqIndex={}, batIndex={};
 
-// ── Global Data ──
-let DB = null;
-let eqIndex = {};  // id -> equipment entry
-let batIndex = {}; // id -> battalion entry
-
-// ── Navigation ──
-document.querySelectorAll('[data-page]').forEach(el => {
-  el.addEventListener('click', e => {
-    e.preventDefault();
-    showPage(el.dataset.page);
-  });
+// ── Nav ──
+document.querySelectorAll('[data-page]').forEach(function(el){
+  el.addEventListener('click',function(e){e.preventDefault();showPage(el.dataset.page)});
 });
-
-function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-  document.getElementById('page-' + name).classList.remove('hidden');
-  document.querySelectorAll('nav a[data-page]').forEach(a => {
-    a.classList.toggle('active', a.dataset.page === name);
+function showPage(name){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.add('hidden')});
+  document.getElementById('page-'+name).classList.remove('hidden');
+  document.querySelectorAll('nav a[data-page]').forEach(function(a){
+    a.classList.toggle('active',a.dataset.page===name);
   });
-  window.location.hash = name === 'home' ? '' : name;
+  window.location.hash=name==='home'?'':name;
 }
 
-// ── Load Data ──
-fetch('bice_data.json')
-  .then(r => r.json())
-  .then(data => { DB = data; init(); })
-  .catch(e => {
-    document.getElementById('loading').innerHTML =
-      '<p style="color:var(--red)">Failed to load data: ' + e.message + '</p>';
-  });
+// ── Load ──
+fetch('bice_data.json').then(function(r){return r.json()}).then(function(data){DB=data;init()})
+  .catch(function(e){document.getElementById('loading').innerHTML='<p style="color:var(--red)">Failed: '+e.message+'</p>'});
 
-function init() {
+function init(){
   document.getElementById('loading').classList.add('hidden');
-  DB.equipment.forEach(e => eqIndex[e.id] = e);
-  DB.battalions.forEach(b => batIndex[b.id] = b);
-  initDashboard();
-  initEquipment();
-  initBattalions();
-  initTanks();
-  initDivision();
-  // Handle hash
-  const hash = window.location.hash.replace('#', '');
-  if (hash && document.getElementById('page-' + hash)) showPage(hash);
+  DB.equipment.forEach(function(e){eqIndex[e.id]=e});
+  DB.battalions.forEach(function(b){batIndex[b.id]=b});
+  initDashboard();initEquipment();initBattalions();initTanks();initDivision();
+  var hash=window.location.hash.replace('#','');
+  if(hash&&document.getElementById('page-'+hash))showPage(hash);
 }
 
 // ── Helpers ──
-function fmt(v, d) { d = d === undefined ? 1 : d; return v != null ? Number(v).toFixed(d) : ''; }
-function pct(v) { return v != null ? (v * 100).toFixed(0) + '%' : ''; }
-function titleCase(s) {
-  return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+function fmt(v,d){d=d===undefined?1:d;return v!=null?Number(v).toFixed(d):''}
+function pct(v){return v!=null?(v*100).toFixed(0)+'%':''}
+function tc(s){return s.replace(/_/g,' ').replace(/\b\w/g,function(c){return c.toUpperCase()})}
+function batIcon(bid,h){
+  h=h||22;
+  var src=DB.icon_map&&DB.icon_map[bid];
+  return src?'<img src="'+src+'" height="'+h+'" loading="lazy">':'';
+}
+function tankIcon(cls,h){
+  h=h||22;
+  var src=DB.tank_class_icons&&DB.tank_class_icons[cls];
+  return src?'<img src="'+src+'" height="'+h+'" loading="lazy">':'';
 }
 
-// ═══════════════════ DASHBOARD ═══════════════════
-function initDashboard() {
-  const families = new Set(DB.equipment.map(e => e.family).filter(Boolean));
-  const cards = [
-    ['Equipment', DB.equipment.length],
-    ['Battalions', DB.battalions.length],
-    ['Tank Designs', DB.tanks.length],
-    ['Families', families.size],
-    ['Doctrine Presets', Object.keys(DB.doctrines).length],
-  ];
-  document.getElementById('dash-cards').innerHTML = cards.map(
-    ([l,v]) => '<div class="sc"><div class="lb">' + l + '</div><div class="vl">' + v + '</div></div>'
-  ).join('');
+// ═══ DASHBOARD ═══
+function initDashboard(){
+  var fams={};DB.equipment.forEach(function(e){if(e.family)fams[e.family]=1});
+  var cards=[['Equipment',DB.equipment.length],['Battalions',DB.battalions.length],
+    ['Tank Designs',DB.tanks.length],['Families',Object.keys(fams).length],
+    ['Templates',(DB.templates||[]).length],['Doctrine Presets',Object.keys(DB.doctrines).length]];
+  document.getElementById('dash-cards').innerHTML=cards.map(function(c){
+    return '<div class="sc"><div class="lb">'+c[0]+'</div><div class="vl">'+c[1]+'</div></div>'}).join('');
 }
 
-// ═══════════════════ EQUIPMENT ═══════════════════
-function initEquipment() {
-  const families = [];
-  const seen = {};
-  DB.equipment.forEach(e => {
-    if (e.family && !seen[e.family]) { seen[e.family] = 1; families.push(e.family); }
-  });
-  families.sort();
-  const sel = document.getElementById('eq-family');
-  families.forEach(f => {
-    const o = document.createElement('option');
-    o.value = f; o.textContent = titleCase(f);
-    sel.appendChild(o);
-  });
-  const render = () => {
-    const q = document.getElementById('eq-search').value.toLowerCase();
-    const fam = sel.value;
-    const filtered = DB.equipment.filter(e => {
-      if (fam && e.family !== fam) return false;
-      if (q && e.id.toLowerCase().indexOf(q) === -1 && e.family.toLowerCase().indexOf(q) === -1) return false;
-      return true;
-    });
-    document.getElementById('eq-count').textContent = filtered.length + ' results';
-    const rows = [];
-    for (let i = 0; i < filtered.length; i++) {
-      const e = filtered[i];
-      rows.push('<tr><td>' + titleCase(e.id) + '</td><td>' + titleCase(e.family) +
-        '</td><td class="n">' + (e.year || '') + '</td><td class="n">' + fmt(e.soft_attack) +
-        '</td><td class="n">' + fmt(e.hard_attack) + '</td><td class="n">' + fmt(e.defense) +
-        '</td><td class="n">' + fmt(e.breakthrough) + '</td><td class="n">' + fmt(e.ap_attack) +
-        '</td><td class="n">' + fmt(e.armor_value) + '</td><td class="n">' + pct(e.hardness) +
-        '</td><td class="n">' + fmt(e.maximum_speed) + '</td><td class="n">' + fmt(e.build_cost_ic) +
-        '</td><td class="n">' + pct(e.reliability) + '</td></tr>');
-    }
-    document.getElementById('eq-body').innerHTML = rows.join('');
-  };
-  document.getElementById('eq-search').addEventListener('input', render);
-  sel.addEventListener('change', render);
-  render();
+// ═══ EQUIPMENT ═══
+function initEquipment(){
+  var fams=[],seen={};
+  DB.equipment.forEach(function(e){if(e.family&&!seen[e.family]){seen[e.family]=1;fams.push(e.family)}});
+  fams.sort();
+  var sel=document.getElementById('eq-family');
+  fams.forEach(function(f){var o=document.createElement('option');o.value=f;o.textContent=tc(f);sel.appendChild(o)});
+  function render(){
+    var q=document.getElementById('eq-search').value.toLowerCase(),fam=sel.value;
+    var filtered=DB.equipment.filter(function(e){
+      if(fam&&e.family!==fam)return false;
+      if(q&&e.id.toLowerCase().indexOf(q)===-1&&e.family.toLowerCase().indexOf(q)===-1)return false;
+      return true});
+    document.getElementById('eq-count').textContent=filtered.length+' results';
+    var rows=[];
+    for(var i=0;i<filtered.length;i++){var e=filtered[i];
+      rows.push('<tr><td>'+tc(e.id)+'</td><td>'+tc(e.family)+'</td><td class="n">'+(e.year||'')+'</td><td class="n">'+fmt(e.soft_attack)+'</td><td class="n">'+fmt(e.hard_attack)+'</td><td class="n">'+fmt(e.defense)+'</td><td class="n">'+fmt(e.breakthrough)+'</td><td class="n">'+fmt(e.ap_attack)+'</td><td class="n">'+fmt(e.armor_value)+'</td><td class="n">'+pct(e.hardness)+'</td><td class="n">'+fmt(e.maximum_speed)+'</td><td class="n">'+fmt(e.build_cost_ic)+'</td><td class="n">'+pct(e.reliability)+'</td></tr>')}
+    document.getElementById('eq-body').innerHTML=rows.join('')}
+  document.getElementById('eq-search').addEventListener('input',render);
+  sel.addEventListener('change',render);render();
 }
 
-// ═══════════════════ BATTALIONS ═══════════════════
-function initBattalions() {
-  const groups = [];
-  const seen = {};
-  DB.battalions.forEach(b => {
-    if (b.group && !seen[b.group]) { seen[b.group] = 1; groups.push(b.group); }
-  });
+// ═══ BATTALIONS ═══
+function initBattalions(){
+  var groups=[],seen={};
+  DB.battalions.forEach(function(b){if(b.group&&!seen[b.group]){seen[b.group]=1;groups.push(b.group)}});
   groups.sort();
-  const sel = document.getElementById('bat-group');
-  groups.forEach(g => {
-    const o = document.createElement('option');
-    o.value = g; o.textContent = g;
-    sel.appendChild(o);
-  });
-  const render = () => {
-    const q = document.getElementById('bat-search').value.toLowerCase();
-    const grp = sel.value;
-    const filtered = DB.battalions.filter(b => {
-      if (grp && b.group !== grp) return false;
-      if (q && b.id.toLowerCase().indexOf(q) === -1 && titleCase(b.id).toLowerCase().indexOf(q) === -1) return false;
-      return true;
-    });
-    document.getElementById('bat-count').textContent = filtered.length + ' results';
-    const rows = [];
-    for (let i = 0; i < filtered.length; i++) {
-      const b = filtered[i];
-      const role = b.group === 'support'
-        ? '<span class="tag sup">Support</span>'
-        : '<span class="tag">Line</span>';
-      const slotParts = [];
-      if (b.need) {
-        for (var s in b.need) {
-          slotParts.push('<span class="tag">' + titleCase(s) + ':' + b.need[s] + '</span>');
-        }
-      }
-      rows.push('<tr><td>' + titleCase(b.id) + '</td><td>' + b.group + '</td><td>' + role +
-        '</td><td class="n">' + (b.combat_width || '') + '</td><td class="n">' + (b.manpower || '') +
-        '</td><td class="n">' + (b.max_organisation || '') + '</td><td class="n">' + (b.max_strength || '') +
-        '</td><td class="n">' + fmt(b.soft_attack) + '</td><td class="n">' + fmt(b.hard_attack) +
-        '</td><td class="n">' + fmt(b.defense) + '</td><td class="n">' + fmt(b.breakthrough) +
-        '</td><td class="n">' + fmt(b.supply_consumption, 3) + '</td><td class="n">' + (b.training_time || '') +
-        '</td><td>' + slotParts.join('') + '</td></tr>');
-    }
-    document.getElementById('bat-body').innerHTML = rows.join('');
-  };
-  document.getElementById('bat-search').addEventListener('input', render);
-  sel.addEventListener('change', render);
-  render();
+  var sel=document.getElementById('bat-group');
+  groups.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o)});
+  function render(){
+    var q=document.getElementById('bat-search').value.toLowerCase(),grp=sel.value;
+    var filtered=DB.battalions.filter(function(b){
+      if(grp&&b.group!==grp)return false;
+      if(q&&b.id.toLowerCase().indexOf(q)===-1&&tc(b.id).toLowerCase().indexOf(q)===-1)return false;
+      return true});
+    document.getElementById('bat-count').textContent=filtered.length+' results';
+    var rows=[];
+    for(var i=0;i<filtered.length;i++){var b=filtered[i];
+      var role=b.group==='support'?'<span class="tag sup">Support</span>':'<span class="tag">Line</span>';
+      var slots=[];if(b.need)for(var s in b.need)slots.push('<span class="tag">'+tc(s)+':'+b.need[s]+'</span>');
+      rows.push('<tr style="cursor:pointer" onclick="openBatModal(\''+b.id+'\')"><td class="icon-cell">'+batIcon(b.id)+'</td><td><a>'+tc(b.id)+'</a></td><td>'+b.group+'</td><td>'+role+'</td><td class="n">'+(b.combat_width||'')+'</td><td class="n">'+(b.manpower||'')+'</td><td class="n">'+(b.max_organisation||'')+'</td><td class="n">'+(b.max_strength||'')+'</td><td class="n">'+fmt(b.soft_attack)+'</td><td class="n">'+fmt(b.hard_attack)+'</td><td class="n">'+fmt(b.defense)+'</td><td class="n">'+fmt(b.breakthrough)+'</td><td class="n">'+fmt(b.supply_consumption,3)+'</td><td class="n">'+(b.training_time||'')+'</td><td>'+slots.join('')+'</td></tr>')}
+    document.getElementById('bat-body').innerHTML=rows.join('')}
+  document.getElementById('bat-search').addEventListener('input',render);
+  sel.addEventListener('change',render);render();
 }
 
-// ═══════════════════ TANKS ═══════════════════
-function initTanks() {
-  const rows = [];
-  for (let i = 0; i < DB.tanks.length; i++) {
-    const t = DB.tanks[i];
-    rows.push('<tr><td><strong>' + t.name + '</strong></td><td>' + t.tank_class +
-      '</td><td class="n">' + (t.year || '') + '</td><td class="n">' + fmt(t.soft_attack) +
-      '</td><td class="n">' + fmt(t.hard_attack) + '</td><td class="n">' + fmt(t.defense) +
-      '</td><td class="n">' + fmt(t.breakthrough) + '</td><td class="n">' + fmt(t.ap_attack) +
-      '</td><td class="n">' + fmt(t.armor_value) + '</td><td class="n">' + pct(t.hardness) +
-      '</td><td class="n">' + fmt(t.maximum_speed) + '</td><td class="n">' + fmt(t.build_cost_ic) +
-      '</td><td class="n">' + pct(t.reliability) + '</td></tr>');
-  }
-  document.getElementById('tank-body').innerHTML = rows.join('');
+// ═══ BATTALION DETAIL MODAL ═══
+var modalBatId=null, modalSelected={};
+
+function openBatModal(bid){
+  modalBatId=bid;modalSelected={};
+  var bat=batIndex[bid];if(!bat)return;
+  var cats=bat.categories||[];
+  // Build slot data
+  var slots=[];
+  for(var arch in bat.need){
+    var variants=DB.family_index[arch]||[];
+    slots.push({archetype:arch,name:tc(arch),qty:bat.need[arch],variants:variants})}
+
+  var html='<div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem">'+
+    batIcon(bid,32)+'<div><h1 style="margin:0">'+tc(bid)+'</h1><p style="color:var(--dim);font-size:.8rem;margin:0">'+bid+'</p></div></div>';
+  html+='<div class="grid-2"><div>';
+  html+='<h2>Computed Stats</h2><div id="modal-stats"><p style="color:var(--dim)">Select equipment below...</p></div></div><div>';
+  html+='<h2>Equipment Slots</h2>';
+  html+='<div style="display:flex;gap:.4rem;align-items:center;margin-bottom:.4rem">';
+  html+='<select id="modal-year" style="width:72px"><option value="1936">1936</option><option value="1939" selected>1939</option><option value="1940">1940</option><option value="1941">1941</option><option value="1942">1942</option><option value="1943">1943</option><option value="1944">1944</option></select>';
+  html+='<button onclick="modalAutoEquip()">Auto-equip</button></div>';
+  html+='<div id="modal-slots">';
+  for(var si=0;si<slots.length;si++){
+    var sl=slots[si];
+    html+='<div class="slot-card" data-arch="'+sl.archetype+'"><div class="slot-header"><span class="slot-name">'+sl.name+'</span><span class="slot-qty">&times;'+sl.qty+'</span></div><div class="tier-row">';
+    for(var vi=0;vi<sl.variants.length;vi++){
+      var v=sl.variants[vi];
+      html+='<button class="tier-btn" data-arch="'+sl.archetype+'" data-eid="'+v.id+'" onclick="modalSelectEquip(this)">'+tc(v.id)+'<span class="tier-year">'+v.year+'</span></button>'}
+    if(!sl.variants.length)html+='<span style="color:var(--dim);font-size:.75rem">No variants</span>';
+    html+='</div></div>'}
+  html+='</div>';
+  html+='<h2>Categories</h2><div>';
+  for(var ci=0;ci<cats.length;ci++)html+='<span class="tag">'+tc(cats[ci])+'</span>';
+  html+='</div></div></div>';
+
+  document.getElementById('bat-modal-content').innerHTML=html;
+  document.getElementById('bat-modal').classList.remove('hidden');
+  modalAutoEquip();
 }
 
-// ═══════════════════ DIVISION DESIGNER ═══════════════════
-var divSelectedBat = null;
-var divUnits = [];
+function closeBatModal(){document.getElementById('bat-modal').classList.add('hidden')}
 
-function initDivision() {
-  var groups = [];
-  var seen = {};
-  DB.battalions.forEach(function(b) {
-    if (b.group && !seen[b.group]) { seen[b.group] = 1; groups.push(b.group); }
-  });
-  groups.sort();
-  var gf = document.getElementById('div-group-filter');
-  groups.forEach(function(g) {
-    var o = document.createElement('option'); o.value = g; o.textContent = g; gf.appendChild(o);
-  });
-
-  var ds = document.getElementById('div-doctrine');
-  for (var k in DB.doctrines) {
-    var o = document.createElement('option');
-    o.value = k; o.textContent = DB.doctrines[k].name || k;
-    if (k === 'ww1_full') o.selected = true;
-    ds.appendChild(o);
-  }
-  filterDivBats();
+function modalSelectEquip(btn){
+  var arch=btn.dataset.arch,eid=btn.dataset.eid;
+  modalSelected[arch]=eid;
+  var card=btn.closest('.slot-card');
+  card.querySelectorAll('.tier-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  modalComputeStats();
 }
 
-function filterDivBats() {
-  var q = (document.getElementById('div-bat-search').value || '').toLowerCase();
-  var gf = document.getElementById('div-group-filter').value;
-  var filtered = DB.battalions.filter(function(b) {
-    if (gf && b.group !== gf) return false;
-    if (q && b.id.toLowerCase().indexOf(q) === -1 && titleCase(b.id).toLowerCase().indexOf(q) === -1) return false;
-    return true;
-  });
-  var grouped = {};
-  filtered.forEach(function(b) {
-    var g = b.group || 'other';
-    if (!grouped[g]) grouped[g] = [];
-    grouped[g].push(b);
-  });
-  var picker = document.getElementById('div-bat-picker');
-  var html = '';
-  var sortedGroups = Object.keys(grouped).sort();
-  for (var gi = 0; gi < sortedGroups.length; gi++) {
-    var g = sortedGroups[gi];
-    html += '<div class="group-hdr">' + g + ' (' + grouped[g].length + ')</div>';
-    for (var bi = 0; bi < grouped[g].length; bi++) {
-      var b = grouped[g][bi];
-      var sel = divSelectedBat === b.id ? ' sel' : '';
-      var sup = b.group === 'support' ? ' <span class="tag sup" style="font-size:.6rem">SUP</span>' : '';
-      var w = b.combat_width ? 'W:' + b.combat_width : '';
-      html += '<div class="bat-row' + sel + '" data-bid="' + b.id + '" data-sup="' + (b.group === 'support' ? 1 : 0) + '">' +
-        '<span class="bid">' + titleCase(b.id) + sup + '</span>' +
-        '<span class="meta">' + w + '</span></div>';
-    }
-  }
-  if (!filtered.length) html = '<div style="padding:.8rem;color:var(--dim)">No matches</div>';
-  picker.innerHTML = html;
+function modalAutoEquip(){
+  var year=parseInt(document.getElementById('modal-year').value)||1939;
+  var bat=batIndex[modalBatId];if(!bat)return;
+  modalSelected={};
+  for(var arch in bat.need){
+    var variants=DB.family_index[arch]||[];
+    if(!variants.length)continue;
+    var best=variants[0].id;
+    for(var vi=0;vi<variants.length;vi++){if(variants[vi].year<=year)best=variants[vi].id}
+    modalSelected[arch]=best}
+  // Update buttons
+  document.querySelectorAll('#modal-slots .tier-btn').forEach(function(btn){
+    btn.classList.toggle('active',modalSelected[btn.dataset.arch]===btn.dataset.eid)});
+  modalComputeStats();
 }
 
-document.getElementById('div-bat-picker').addEventListener('click', function(e) {
-  var row = e.target.closest('.bat-row');
-  if (!row) return;
-  divSelectedBat = row.dataset.bid;
-  document.querySelectorAll('#div-bat-picker .bat-row').forEach(function(r) { r.classList.remove('sel'); });
-  row.classList.add('sel');
-});
-document.getElementById('div-bat-picker').addEventListener('dblclick', function(e) {
-  var row = e.target.closest('.bat-row');
-  if (!row) return;
-  divSelectedBat = row.dataset.bid;
-  addUnit(row.dataset.sup === '1');
-});
-
-function addUnit(isSupport) {
-  if (!divSelectedBat) return;
-  var count = isSupport ? 1 : (parseInt(document.getElementById('div-count').value) || 1);
-  var year = parseInt(document.getElementById('div-year').value) || 1939;
-  divUnits.push({ type: divSelectedBat, count: count, year: year, support: isSupport });
-  renderDivList();
+function modalComputeStats(){
+  var bat=batIndex[modalBatId];if(!bat)return;
+  var stats=calcRawStats(bat,modalSelected);
+  stats.max_organisation=bat.max_organisation||0;
+  stats.max_strength=bat.max_strength||0;
+  stats.combat_width=bat.combat_width||0;
+  stats.manpower=bat.manpower||0;
+  stats.supply_consumption=bat.supply_consumption||0;
+  stats.training_time=bat.training_time||0;
+  var order=['soft_attack','hard_attack','defense','breakthrough','ap_attack','air_attack',
+    'armor_value','hardness','maximum_speed','build_cost_ic','reliability',
+    'max_organisation','max_strength','manpower','combat_width','supply_consumption','training_time'];
+  var labels={soft_attack:'Soft Attack',hard_attack:'Hard Attack',defense:'Defense',
+    breakthrough:'Breakthrough',ap_attack:'Armor Piercing',air_attack:'Air Attack',
+    armor_value:'Armor',hardness:'Hardness',maximum_speed:'Speed',
+    build_cost_ic:'IC Cost',reliability:'Reliability',max_organisation:'Organization',
+    max_strength:'HP',manpower:'Manpower',combat_width:'Combat Width',
+    supply_consumption:'Supply/day',training_time:'Training Time'};
+  var html='<div class="stat-cards">';
+  for(var i=0;i<order.length;i++){var k=order[i],v=stats[k];
+    if(v===undefined||v===0)continue;
+    var disp;if(k==='hardness'||k==='reliability')disp=(v*100).toFixed(0)+'%';
+    else if(typeof v==='number')disp=v.toFixed(2);else disp=v;
+    html+='<div class="sc"><div class="lb">'+(labels[k]||k)+'</div><div class="vl">'+disp+'</div></div>'}
+  html+='</div>';
+  document.getElementById('modal-stats').innerHTML=html;
 }
 
-function removeUnit(idx) { divUnits.splice(idx, 1); renderDivList(); }
+// ═══ TANKS ═══
+function initTanks(){
+  var rows=[];
+  for(var i=0;i<DB.tanks.length;i++){var t=DB.tanks[i];
+    rows.push('<tr><td class="icon-cell">'+tankIcon(t.tank_class)+'</td><td><strong>'+t.name+'</strong></td><td>'+t.tank_class+'</td><td class="n">'+(t.year||'')+'</td><td class="n">'+fmt(t.soft_attack)+'</td><td class="n">'+fmt(t.hard_attack)+'</td><td class="n">'+fmt(t.defense)+'</td><td class="n">'+fmt(t.breakthrough)+'</td><td class="n">'+fmt(t.ap_attack)+'</td><td class="n">'+fmt(t.armor_value)+'</td><td class="n">'+pct(t.hardness)+'</td><td class="n">'+fmt(t.maximum_speed)+'</td><td class="n">'+fmt(t.build_cost_ic)+'</td><td class="n">'+pct(t.reliability)+'</td></tr>')}
+  document.getElementById('tank-body').innerHTML=rows.join('')}
 
-function renderDivList() {
-  var el = document.getElementById('div-list');
-  if (!divUnits.length) { el.innerHTML = '<p style="color:var(--dim);font-style:italic">No units added yet.</p>'; return; }
-  var html = '<table><tr><th>Type</th><th>#</th><th>Year</th><th>Role</th><th></th></tr>';
-  for (var i = 0; i < divUnits.length; i++) {
-    var u = divUnits[i];
-    var role = u.support ? '<span class="tag sup">Support</span>' : 'Line';
-    html += '<tr><td>' + titleCase(u.type) + '</td><td class="n">' + u.count + '</td><td class="n">' + u.year +
-      '</td><td>' + role + '</td><td><button onclick="removeUnit(' + i + ')" style="color:var(--red);border-color:var(--red);background:transparent;font-size:.7rem;padding:.1rem .3rem">&times;</button></td></tr>';
-  }
-  el.innerHTML = html + '</table>';
+// ═══ DIVISION DESIGNER ═══
+var divSelectedBat=null, divUnits=[], selectedTemplate=null;
+
+function initDivision(){
+  // Groups
+  var groups=[],seen={};
+  DB.battalions.forEach(function(b){if(b.group&&!seen[b.group]){seen[b.group]=1;groups.push(b.group)}});groups.sort();
+  var gf=document.getElementById('div-group-filter');
+  groups.forEach(function(g){var o=document.createElement('option');o.value=g;o.textContent=g;gf.appendChild(o)});
+  // Doctrines
+  var ds=document.getElementById('div-doctrine');
+  for(var k in DB.doctrines){var o=document.createElement('option');o.value=k;o.textContent=DB.doctrines[k].name||k;if(k==='ww1_full')o.selected=true;ds.appendChild(o)}
+  // Template categories
+  var cats={};(DB.templates||[]).forEach(function(t){if(t.category)cats[t.category]=1});
+  var cs=document.getElementById('tmpl-category');
+  Object.keys(cats).sort().forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=tc(c);cs.appendChild(o)});
+  filterTemplates();filterDivBats();
 }
 
-// ── Auto-equip: pick best equipment for each slot up to given year ──
-function autoEquip(batId, year) {
-  var bat = batIndex[batId];
-  if (!bat) return {};
-  var assignment = {};
-  for (var archetype in bat.need) {
-    var variants = DB.family_index[archetype];
-    if (!variants || !variants.length) continue;
-    var best = variants[0].id;
-    for (var vi = 0; vi < variants.length; vi++) {
-      if (variants[vi].year <= year) best = variants[vi].id;
-    }
-    assignment[archetype] = best;
-  }
-  return assignment;
+function filterTemplates(){
+  var cat=document.getElementById('tmpl-category').value;
+  var list=document.getElementById('tmpl-list');
+  var tmpls=(DB.templates||[]).filter(function(t){return !cat||t.category===cat});
+  var html='';
+  for(var i=0;i<tmpls.length;i++){var t=tmpls[i];
+    var sel=selectedTemplate===i?' style="background:rgba(63,185,80,.12)"':'';
+    var nBat=0;t.battalions.forEach(function(b){nBat+=b.count});
+    var nSup=t.support.length;
+    html+='<div class="tmpl-row" data-idx="'+i+'"'+sel+'><span class="tname">'+t.name+'</span><span class="tmeta">'+nBat+' line + '+nSup+' sup | '+t.year+'</span></div>'}
+  list.innerHTML=html||'<div style="padding:.5rem;color:var(--dim)">No templates</div>';
+  list.querySelectorAll('.tmpl-row').forEach(function(row){
+    row.addEventListener('click',function(){
+      selectedTemplate=parseInt(row.dataset.idx);
+      list.querySelectorAll('.tmpl-row').forEach(function(r){r.style.background=''});
+      row.style.background='rgba(63,185,80,.12)'})});
 }
 
-// ══════════════════════════════════════════════════════
-//  CORE CALCULATOR (ported from bice_calc.py)
-// ══════════════════════════════════════════════════════
-var COMBAT_STATS = [
-  'soft_attack','hard_attack','air_attack','defense','breakthrough',
+function loadTemplate(){
+  if(selectedTemplate===null)return;
+  var cat=document.getElementById('tmpl-category').value;
+  var tmpls=(DB.templates||[]).filter(function(t){return !cat||t.category===cat});
+  var t=tmpls[selectedTemplate];if(!t)return;
+  divUnits=[];
+  t.battalions.forEach(function(b){divUnits.push({type:b.type,count:b.count,year:t.year,support:false})});
+  t.support.forEach(function(s){divUnits.push({type:s.type,count:s.count,year:t.year,support:true})});
+  document.getElementById('div-year').value=t.year;
+  renderDivList();computeDivision();
+}
+
+function clearDivision(){divUnits=[];selectedTemplate=null;renderDivList();
+  document.getElementById('div-results').innerHTML='<p style="color:var(--dim);font-style:italic">Add battalions and click Compute.</p>';
+  filterTemplates();
+}
+
+function filterDivBats(){
+  var q=(document.getElementById('div-bat-search').value||'').toLowerCase();
+  var gf=document.getElementById('div-group-filter').value;
+  var filtered=DB.battalions.filter(function(b){
+    if(gf&&b.group!==gf)return false;
+    if(q&&b.id.toLowerCase().indexOf(q)===-1&&tc(b.id).toLowerCase().indexOf(q)===-1)return false;
+    return true});
+  var grouped={};
+  filtered.forEach(function(b){var g=b.group||'other';if(!grouped[g])grouped[g]=[];grouped[g].push(b)});
+  var picker=document.getElementById('div-bat-picker');var html='';
+  Object.keys(grouped).sort().forEach(function(g){
+    html+='<div class="group-hdr">'+g+' ('+grouped[g].length+')</div>';
+    grouped[g].forEach(function(b){
+      var sel=divSelectedBat===b.id?' sel':'';
+      var sup=b.group==='support'?' <span class="tag sup" style="font-size:.55rem">SUP</span>':'';
+      var w=b.combat_width?'W:'+b.combat_width:'';
+      html+='<div class="bat-row'+sel+'" data-bid="'+b.id+'" data-sup="'+(b.group==='support'?1:0)+'">'+
+        batIcon(b.id,18)+'<span class="bid">'+tc(b.id)+sup+'</span><span class="meta">'+w+'</span></div>'})});
+  if(!filtered.length)html='<div style="padding:.8rem;color:var(--dim)">No matches</div>';
+  picker.innerHTML=html}
+
+document.getElementById('div-bat-picker').addEventListener('click',function(e){
+  var row=e.target.closest('.bat-row');if(!row)return;
+  divSelectedBat=row.dataset.bid;
+  document.querySelectorAll('#div-bat-picker .bat-row').forEach(function(r){r.classList.remove('sel')});
+  row.classList.add('sel')});
+document.getElementById('div-bat-picker').addEventListener('dblclick',function(e){
+  var row=e.target.closest('.bat-row');if(!row)return;
+  divSelectedBat=row.dataset.bid;addUnit(row.dataset.sup==='1')});
+
+function addUnit(isSupport){
+  if(!divSelectedBat)return;
+  var count=isSupport?1:(parseInt(document.getElementById('div-count').value)||1);
+  var year=parseInt(document.getElementById('div-year').value)||1939;
+  divUnits.push({type:divSelectedBat,count:count,year:year,support:isSupport});
+  renderDivList()}
+
+function removeUnit(idx){divUnits.splice(idx,1);renderDivList()}
+
+function renderDivList(){
+  var el=document.getElementById('div-list');
+  if(!divUnits.length){el.innerHTML='<p style="color:var(--dim);font-style:italic">No units added yet.</p>';return}
+  var html='<table><tr><th style="width:28px"></th><th>Type</th><th>#</th><th>Year</th><th>Role</th><th></th></tr>';
+  for(var i=0;i<divUnits.length;i++){var u=divUnits[i];
+    var role=u.support?'<span class="tag sup">Support</span>':'Line';
+    html+='<tr><td class="icon-cell">'+batIcon(u.type,18)+'</td><td>'+tc(u.type)+'</td><td class="n">'+u.count+'</td><td class="n">'+u.year+'</td><td>'+role+'</td><td><button onclick="removeUnit('+i+')" style="color:var(--red);border-color:var(--red);background:transparent;font-size:.7rem;padding:.1rem .3rem">&times;</button></td></tr>'}
+  el.innerHTML=html+'</table>'}
+
+// ── Auto-equip ──
+function autoEquip(batId,year){
+  var bat=batIndex[batId];if(!bat)return {};var assignment={};
+  for(var arch in bat.need){
+    var variants=DB.family_index[arch];
+    if(!variants||!variants.length)continue;
+    var best=variants[0].id;
+    for(var vi=0;vi<variants.length;vi++){if(variants[vi].year<=year)best=variants[vi].id}
+    assignment[arch]=best}
+  return assignment}
+
+// ═══ CALCULATOR (from bice_calc.py) ═══
+var COMBAT_STATS=['soft_attack','hard_attack','air_attack','defense','breakthrough',
   'ap_attack','armor_value','hardness','reliability','maximum_speed',
-  'additional_collateral_damage','suppression','build_cost_ic','fuel_consumption'
-];
+  'additional_collateral_damage','suppression','build_cost_ic','fuel_consumption'];
 
-function calcRawStats(bat, assignment) {
-  var stats = {};
-  for (var si = 0; si < COMBAT_STATS.length; si++) {
-    var s = COMBAT_STATS[si];
-    stats[s] = bat[s] || 0;
-  }
-  var need = bat.need || {};
-  for (var slot in assignment) {
-    var eid = assignment[slot];
-    var eq = eqIndex[eid];
-    if (!eq) continue;
-    var qty = need[slot] || 1;
-    for (var si2 = 0; si2 < COMBAT_STATS.length; si2++) {
-      var s2 = COMBAT_STATS[si2];
-      var val = eq[s2] || 0;
-      if (s2 === 'build_cost_ic') {
-        stats[s2] = (stats[s2] || 0) + val * qty;
-      } else {
-        stats[s2] = (stats[s2] || 0) + val;
-      }
-    }
-  }
-  return stats;
-}
+function calcRawStats(bat,assignment){
+  var stats={};for(var i=0;i<COMBAT_STATS.length;i++){var s=COMBAT_STATS[i];stats[s]=bat[s]||0}
+  var need=bat.need||{};
+  for(var slot in assignment){var eid=assignment[slot];var eq=eqIndex[eid];if(!eq)continue;
+    var qty=need[slot]||1;
+    for(var j=0;j<COMBAT_STATS.length;j++){var s2=COMBAT_STATS[j];var val=eq[s2]||0;
+      stats[s2]=(stats[s2]||0)+(s2==='build_cost_ic'?val*qty:val)}}
+  return stats}
 
-function applyDoctrineModifiers(stats, categories, modifiers) {
-  var out = {};
-  for (var k in stats) out[k] = stats[k];
-  var catSet = {};
-  for (var ci = 0; ci < categories.length; ci++) catSet[categories[ci]] = true;
+function applyDoctrineModifiers(stats,categories,modifiers){
+  var out={};for(var k in stats)out[k]=stats[k];
+  var catSet={};for(var i=0;i<categories.length;i++)catSet[categories[i]]=true;
+  var pctA={};var cm=modifiers.category_mult||{};
+  for(var cat in cm){if(catSet[cat]){var b=cm[cat];for(var st in b)pctA[st]=(pctA[st]||0)+b[st]}}
+  for(var st2 in pctA){if(st2 in out)out[st2]=out[st2]*(1+pctA[st2])}
+  var cf=modifiers.category_flat||{};
+  for(var cat2 in cf){if(catSet[cat2]){var b2=cf[cat2];for(var st3 in b2){if(st3 in out)out[st3]=out[st3]+b2[st3]}}}
+  return out}
 
-  // Accumulate multiplicative bonuses
-  var pctAccum = {};
-  var catMult = modifiers.category_mult || {};
-  for (var cat in catMult) {
-    if (catSet[cat]) {
-      var bonuses = catMult[cat];
-      for (var stat in bonuses) {
-        pctAccum[stat] = (pctAccum[stat] || 0) + bonuses[stat];
-      }
-    }
-  }
-  for (var stat2 in pctAccum) {
-    if (stat2 in out) out[stat2] = out[stat2] * (1 + pctAccum[stat2]);
-  }
+function computeDivision(){
+  if(!divUnits.length)return;
+  var dn=document.getElementById('div-doctrine').value;
+  var mod=DB.doctrines[dn]||null;
+  var useDoc=mod&&(mod.category_mult||mod.category_flat);
+  var tot={hp:0,width:0,manpower:0,weight:0,supply:0,training:0,sa:0,ha:0,aa:0,collateral:0,suppression:0,ic:0,defense:0,bt:0};
+  var wOrg=0,wHard=0,speeds=[],warnings=[];
+  for(var i=0;i<divUnits.length;i++){var unit=divUnits[i];
+    var bat=batIndex[unit.type];
+    if(!bat){warnings.push('Unknown: '+unit.type);continue}
+    var count=unit.count;var assignment=autoEquip(unit.type,unit.year);
+    for(var sl in bat.need){if(!(sl in assignment))warnings.push(tc(unit.type)+': missing '+tc(sl))}
+    var bs=calcRawStats(bat,assignment);
+    var hp=bat.max_strength||0,width=bat.combat_width||0,mp=bat.manpower||0;
+    var wt=bat.weight||0,sup=bat.supply_consumption||0,org=bat.max_organisation||0,tr=bat.training_time||0;
+    if(useDoc){bs.max_organisation=org;bs=applyDoctrineModifiers(bs,bat.categories||[],mod);org=bs.max_organisation||org;delete bs.max_organisation}
+    tot.hp+=count*hp;tot.width+=count*width;tot.manpower+=count*mp;tot.weight+=count*wt;
+    tot.supply+=count*sup;tot.training=Math.max(tot.training,tr);
+    tot.sa+=count*(bs.soft_attack||0);tot.ha+=count*(bs.hard_attack||0);
+    tot.aa+=count*(bs.air_attack||0);tot.defense+=count*(bs.defense||0);
+    tot.bt+=count*(bs.breakthrough||0);tot.collateral+=count*(bs.additional_collateral_damage||0);
+    tot.suppression+=count*(bs.suppression||0);tot.ic+=count*(bs.build_cost_ic||0);
+    var mpW=count*mp;wOrg+=mpW*org;wHard+=mpW*(bs.hardness||0);
+    if(!unit.support&&bat.transport){var tE=assignment[bat.transport]||bat.transport;
+      var tEq=eqIndex[tE];if(tEq&&tEq.maximum_speed>0)speeds.push(tEq.maximum_speed)}}
 
-  // Flat bonuses
-  var catFlat = modifiers.category_flat || {};
-  for (var cat2 in catFlat) {
-    if (catSet[cat2]) {
-      var bonuses2 = catFlat[cat2];
-      for (var stat3 in bonuses2) {
-        if (stat3 in out) out[stat3] = out[stat3] + bonuses2[stat3];
-      }
-    }
-  }
-  return out;
-}
+  var totalMp=tot.manpower;var orgAvg=totalMp>0?wOrg/totalMp:0;var hardAvg=totalMp>0?wHard/totalMp:0;
+  var result={'Width':+tot.width.toFixed(1),'Manpower':Math.round(tot.manpower),'HP':+tot.hp.toFixed(2),
+    'Org':+orgAvg.toFixed(2),'Soft Attack':+tot.sa.toFixed(2),'Hard Attack':+tot.ha.toFixed(3),
+    'Air Attack':+tot.aa.toFixed(2),'Defense':+tot.defense.toFixed(2),'Breakthrough':+tot.bt.toFixed(2),
+    'Hardness':+hardAvg.toFixed(3),'Speed (km/h)':speeds.length?+Math.min.apply(null,speeds).toFixed(2):0,
+    'Suppression':+tot.suppression.toFixed(2),'Collateral':Math.round(tot.collateral),
+    'IC Cost':+tot.ic.toFixed(1),'Supply/day':+tot.supply.toFixed(3),'Training (days)':tot.training};
 
-function computeDivision() {
-  if (!divUnits.length) return;
-
-  var doctrineName = document.getElementById('div-doctrine').value;
-  var modifiers = DB.doctrines[doctrineName] || null;
-  var useDoctrine = modifiers && (modifiers.category_mult || modifiers.category_flat);
-
-  var totals = {
-    hp:0, width:0, manpower:0, weight:0, supply:0, training:0,
-    sa:0, ha:0, aa:0, collateral:0, suppression:0, ic:0, defense:0, bt:0
-  };
-  var wOrg = 0, wHard = 0;
-  var speeds = [];
-  var warnings = [];
-
-  for (var ui = 0; ui < divUnits.length; ui++) {
-    var unit = divUnits[ui];
-    var bat = batIndex[unit.type];
-    if (!bat) { warnings.push('Unknown: ' + unit.type); continue; }
-
-    var count = unit.count;
-    var assignment = autoEquip(unit.type, unit.year);
-
-    // Check for missing slots
-    for (var slot in bat.need) {
-      if (!(slot in assignment)) {
-        warnings.push(titleCase(unit.type) + ': missing equipment for ' + titleCase(slot));
-      }
-    }
-
-    var bstats = calcRawStats(bat, assignment);
-    var hp = bat.max_strength || 0;
-    var width = bat.combat_width || 0;
-    var manpower = bat.manpower || 0;
-    var weight = bat.weight || 0;
-    var supply = bat.supply_consumption || 0;
-    var org = bat.max_organisation || 0;
-    var training = bat.training_time || 0;
-
-    // Doctrine modifiers per-battalion BEFORE aggregation
-    if (useDoctrine) {
-      bstats['max_organisation'] = org;
-      bstats = applyDoctrineModifiers(bstats, bat.categories || [], modifiers);
-      org = bstats['max_organisation'] || org;
-      delete bstats['max_organisation'];
-    }
-
-    totals.hp += count * hp;
-    totals.width += count * width;
-    totals.manpower += count * manpower;
-    totals.weight += count * weight;
-    totals.supply += count * supply;
-    totals.training = Math.max(totals.training, training);
-    totals.sa += count * (bstats.soft_attack || 0);
-    totals.ha += count * (bstats.hard_attack || 0);
-    totals.aa += count * (bstats.air_attack || 0);
-    totals.defense += count * (bstats.defense || 0);
-    totals.bt += count * (bstats.breakthrough || 0);
-    totals.collateral += count * (bstats.additional_collateral_damage || 0);
-    totals.suppression += count * (bstats.suppression || 0);
-    totals.ic += count * (bstats.build_cost_ic || 0);
-
-    var mpW = count * manpower;
-    wOrg += mpW * org;
-    wHard += mpW * (bstats.hardness || 0);
-
-    // Speed: min transport speed across non-support line bats
-    if (!unit.support && bat.transport) {
-      var tEid = assignment[bat.transport] || bat.transport;
-      var tEq = eqIndex[tEid];
-      if (tEq && tEq.maximum_speed > 0) speeds.push(tEq.maximum_speed);
-    }
-  }
-
-  var totalMp = totals.manpower;
-  var orgAvg = totalMp > 0 ? wOrg / totalMp : 0;
-  var hardAvg = totalMp > 0 ? wHard / totalMp : 0;
-
-  var result = {
-    'Width': +totals.width.toFixed(1),
-    'Manpower': Math.round(totals.manpower),
-    'HP': +totals.hp.toFixed(2),
-    'Org': +orgAvg.toFixed(2),
-    'Soft Attack': +totals.sa.toFixed(2),
-    'Hard Attack': +totals.ha.toFixed(3),
-    'Air Attack': +totals.aa.toFixed(2),
-    'Defense': +totals.defense.toFixed(2),
-    'Breakthrough': +totals.bt.toFixed(2),
-    'Hardness': +hardAvg.toFixed(3),
-    'Speed (km/h)': speeds.length ? +Math.min.apply(null, speeds).toFixed(2) : 0,
-    'Suppression': +totals.suppression.toFixed(2),
-    'Collateral': Math.round(totals.collateral),
-    'IC Cost': +totals.ic.toFixed(1),
-    'Supply/day': +totals.supply.toFixed(3),
-    'Training (days)': totals.training
-  };
-
-  var order = ['Width','Manpower','HP','Org','Soft Attack','Hard Attack','Defense',
-    'Breakthrough','Air Attack','Hardness','Speed (km/h)',
-    'Suppression','Collateral','IC Cost','Supply/day','Training (days)'];
-
-  var html = '<div class="stat-cards">';
-  for (var oi = 0; oi < order.length; oi++) {
-    var k = order[oi];
-    if (result[k] !== undefined) {
-      var v = result[k];
-      var display = typeof v === 'number' ? v.toFixed(2) : v;
-      html += '<div class="sc"><div class="lb">' + k + '</div><div class="vl">' + display + '</div></div>';
-    }
-  }
-  html += '</div>';
-
-  if (warnings.length) {
-    html += '<h2>Warnings</h2>';
-    for (var wi = 0; wi < warnings.length; wi++) {
-      html += '<p class="warning">&bull; ' + warnings[wi] + '</p>';
-    }
-  }
-
-  // Division-level doctrine stats
-  if (useDoctrine && modifiers.division) {
-    html += '<h2>Division Modifiers (Doctrine)</h2><div class="stat-cards">';
-    for (var dk in modifiers.division) {
-      var dv = modifiers.division[dk];
-      var label = titleCase(dk);
-      var disp;
-      if (typeof dv === 'number') {
-        if (dv > 0 && dv < 1) disp = '+' + (dv * 100).toFixed(1) + '%';
-        else if (dv < 0 && dv > -1) disp = (dv * 100).toFixed(1) + '%';
-        else disp = (dv > 0 ? '+' : '') + dv.toFixed(2);
-      } else {
-        disp = dv;
-      }
-      html += '<div class="sc"><div class="lb">' + label + '</div><div class="vl">' + disp + '</div></div>';
-    }
-    html += '</div>';
-  }
-
-  document.getElementById('div-results').innerHTML = html;
-}
+  var order=['Width','Manpower','HP','Org','Soft Attack','Hard Attack','Defense','Breakthrough',
+    'Air Attack','Hardness','Speed (km/h)','Suppression','Collateral','IC Cost','Supply/day','Training (days)'];
+  var html='<div class="stat-cards">';
+  for(var oi=0;oi<order.length;oi++){var k=order[oi];if(result[k]!==undefined){
+    var v=result[k];var d=typeof v==='number'?v.toFixed(2):v;
+    html+='<div class="sc"><div class="lb">'+k+'</div><div class="vl">'+d+'</div></div>'}}
+  html+='</div>';
+  if(warnings.length){html+='<h2>Warnings</h2>';warnings.forEach(function(w){html+='<p class="warning">&bull; '+w+'</p>'})}
+  if(useDoc&&mod.division){html+='<h2>Division Modifiers (Doctrine)</h2><div class="stat-cards">';
+    for(var dk in mod.division){var dv=mod.division[dk];var disp;
+      if(typeof dv==='number'){if(dv>0&&dv<1)disp='+'+(dv*100).toFixed(1)+'%';else if(dv<0&&dv>-1)disp=(dv*100).toFixed(1)+'%';else disp=(dv>0?'+':'')+dv.toFixed(2)}else disp=dv;
+      html+='<div class="sc"><div class="lb">'+tc(dk)+'</div><div class="vl">'+disp+'</div></div>'}
+    html+='</div>'}
+  document.getElementById('div-results').innerHTML=html}
 </script>
 </body>
 </html>

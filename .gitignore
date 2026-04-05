@@ -8,4 +8,5 @@ build/
 .venv/
 .env
 *.png
+!docs/icons/*.png
 *.ico
