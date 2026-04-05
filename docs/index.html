@@ -1,518 +1,696 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BICE Division Stats Calculator</title>
-  <style>
-    :root {
-      --bg: #0d1117;
-      --surface: #161b22;
-      --border: #30363d;
-      --text: #e6edf3;
-      --text-dim: #8b949e;
-      --accent: #58a6ff;
-      --green: #3fb950;
-      --red: #f85149;
-      --gold: #d29922;
-      --orange: #d18616;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BICE Division Stats Calculator</title>
+<style>
+:root {
+  --bg: #0d1117; --surface: #161b22; --surface2: #1c2333;
+  --border: #30363d; --border-hl: #58a6ff;
+  --text: #e6edf3; --dim: #8b949e; --accent: #58a6ff;
+  --green: #3fb950; --red: #f85149; --gold: #d29922; --purple: #bc8cff;
+  --orange: #d18616;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 
-    /* ── Hero ── */
-    .hero {
-      text-align: center;
-      padding: 5rem 2rem 4rem;
-      background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a1f2b 100%);
-      border-bottom: 1px solid var(--border);
-    }
-    .hero h1 {
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(90deg, var(--accent), var(--green));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero .subtitle {
-      font-size: 1.2rem;
-      color: var(--text-dim);
-      max-width: 600px;
-      margin: 0 auto 2rem;
-    }
-    .hero-badges {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      background: var(--surface);
-    }
-    .badge.equip { color: var(--accent); }
-    .badge.bat { color: var(--green); }
-    .badge.tank { color: var(--gold); }
-    .badge.test { color: var(--orange); }
-    .cta-group {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: var(--bg);
-    }
-    .btn-primary:hover { filter: brightness(1.15); }
-    .btn-secondary {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover { border-color: var(--accent); }
+/* ── Nav ── */
+nav{background:var(--surface);padding:.5rem 1.2rem;display:flex;gap:1.2rem;align-items:center;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+nav .brand{font-weight:700;font-size:1rem;color:var(--gold);white-space:nowrap}
+nav a{color:var(--dim);font-size:.85rem;transition:color .15s;white-space:nowrap}
+nav a:hover,nav a.active{color:var(--accent);text-decoration:none}
+.nav-right{margin-left:auto;font-size:.75rem;color:var(--dim)}
 
-    /* ── Container ── */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
+/* ── Layout ── */
+.container{max-width:1400px;margin:0 auto;padding:1.2rem}
+.hidden{display:none!important}
+h1{font-size:1.3rem;margin-bottom:.8rem;color:var(--gold)}
+h2{font-size:1rem;margin:1rem 0 .5rem;color:var(--green)}
 
-    /* ── Section ── */
-    section { padding: 4rem 0; }
-    section + section { border-top: 1px solid var(--border); }
-    section h2 {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      color: var(--text);
-    }
-    section h3 {
-      font-size: 1.2rem;
-      margin-bottom: 0.75rem;
-      color: var(--accent);
-    }
-    section p, section li {
-      color: var(--text-dim);
-      max-width: 700px;
-    }
+/* ── Tables ── */
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th,td{padding:.3rem .5rem;text-align:left;border-bottom:1px solid #1e2636}
+th{background:var(--surface2);color:var(--accent);position:sticky;top:37px;font-size:.72rem;text-transform:uppercase;letter-spacing:.03em;z-index:10}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+tr:hover{background:rgba(88,166,255,.04)}
 
-    /* ── Feature Grid ── */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: border-color 0.2s;
-    }
-    .feature-card:hover { border-color: var(--accent); }
-    .feature-card .icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    .feature-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      color: var(--text);
-    }
-    .feature-card p {
-      font-size: 0.9rem;
-      color: var(--text-dim);
-    }
+/* ── Filters ── */
+.filters{display:flex;gap:.5rem;margin-bottom:.8rem;flex-wrap:wrap;align-items:center}
+input,select,button{font-size:.82rem;padding:.35rem .6rem;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:4px;outline:none}
+input:focus,select:focus{border-color:var(--accent)}
+button{cursor:pointer;transition:all .15s}
+button:hover{border-color:var(--accent);background:var(--surface2)}
+button.primary{background:var(--accent);color:var(--bg);font-weight:600;border-color:var(--accent)}
+button.primary:hover{filter:brightness(1.15)}
+.count{color:var(--dim);font-size:.8rem}
 
-    /* ── Modules Table ── */
-    .mod-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.9rem;
-    }
-    .mod-table th, .mod-table td {
-      padding: 0.6rem 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    .mod-table th {
-      background: var(--surface);
-      color: var(--text-dim);
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-    }
-    .mod-table td:first-child code {
-      color: var(--accent);
-      background: rgba(88,166,255,0.1);
-      padding: 0.15rem 0.4rem;
-      border-radius: 4px;
-      font-size: 0.85rem;
-    }
+/* ── Stat Cards ── */
+.stat-cards{display:flex;flex-wrap:wrap;gap:.3rem;margin:.5rem 0}
+.sc{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.5rem .8rem;min-width:100px}
+.sc .lb{font-size:.68rem;color:var(--dim);text-transform:uppercase;letter-spacing:.03em}
+.sc .vl{font-size:1.15rem;font-weight:700}
 
-    /* ── Code Block ── */
-    pre {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.25rem;
-      overflow-x: auto;
-      font-size: 0.85rem;
-      line-height: 1.7;
-      margin: 1rem 0;
-    }
-    code {
-      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-    }
-    :not(pre) > code {
-      background: rgba(88,166,255,0.1);
-      color: var(--accent);
-      padding: 0.15rem 0.4rem;
-      border-radius: 4px;
-      font-size: 0.85em;
-    }
-    .kw { color: #ff7b72; }
-    .fn { color: #d2a8ff; }
-    .st { color: #a5d6ff; }
-    .cm { color: #8b949e; }
-    .nb { color: #79c0ff; }
-    .num { color: #f0883e; }
+/* ── Tags ── */
+.tag{display:inline-block;background:var(--surface2);border:1px solid var(--border);padding:.1rem .4rem;border-radius:3px;font-size:.7rem;margin:.1rem;white-space:nowrap}
+.tag.sup{background:rgba(188,140,255,.15);border-color:var(--purple);color:var(--purple)}
 
-    /* ── Tank Table ── */
-    .tank-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-    }
-    .tank-table th, .tank-table td {
-      padding: 0.5rem 0.6rem;
-      text-align: right;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-    .tank-table th {
-      background: var(--surface);
-      color: var(--text-dim);
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      letter-spacing: 0.05em;
-      position: sticky;
-      top: 0;
-    }
-    .tank-table td:first-child {
-      text-align: left;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .tank-table tr:hover { background: rgba(88,166,255,0.05); }
-    .overflow-x { overflow-x: auto; }
+/* ── Grid ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:900px){.grid-2{grid-template-columns:1fr}}
 
-    /* ── Aggregation Table ── */
-    .agg-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-    }
-    .agg-table th, .agg-table td {
-      padding: 0.5rem 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    .agg-table th {
-      background: var(--surface);
-      color: var(--text-dim);
-      font-weight: 600;
-    }
+/* ── Division Designer ── */
+.bat-picker{max-height:340px;overflow-y:auto;border:1px solid var(--border);border-radius:4px;background:var(--surface)}
+.bat-row{display:flex;align-items:center;gap:.4rem;padding:.2rem .5rem;cursor:pointer;font-size:.78rem;transition:background .1s}
+.bat-row:hover{background:rgba(88,166,255,.08)}
+.bat-row.sel{background:rgba(63,185,80,.12)}
+.bat-row .bid{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bat-row .meta{color:var(--dim);font-size:.7rem;white-space:nowrap}
+.group-hdr{padding:.25rem .5rem;font-size:.7rem;font-weight:700;color:var(--gold);background:rgba(13,17,23,.7);position:sticky;top:0;z-index:5}
+.div-unit{display:flex;align-items:center;gap:.4rem;padding:.25rem .5rem;border-bottom:1px solid var(--border);font-size:.8rem}
+.div-unit .name{flex:1}
+.div-unit button{font-size:.7rem;padding:.15rem .3rem;color:var(--red);background:transparent;border:1px solid var(--red)}
+.warning{color:var(--gold);font-size:.8rem;margin:.2rem 0}
 
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 2rem;
-      border-top: 1px solid var(--border);
-      color: var(--text-dim);
-      font-size: 0.85rem;
-    }
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    /* ── Responsive ── */
-    @media (max-width: 700px) {
-      .hero h1 { font-size: 2rem; }
-      .hero { padding: 3rem 1rem 2.5rem; }
-      .features { grid-template-columns: 1fr; }
-    }
-  </style>
+/* ── Loading ── */
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999}
+#loading .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loading p{margin-top:1rem;color:var(--dim)}
+</style>
 </head>
 <body>
 
-  <!-- Hero -->
-  <header class="hero">
-    <h1>BICE Division Stats Calculator</h1>
-    <p class="subtitle">
-      A Python toolkit for computing and comparing division stats from the
-      <strong>Black ICE</strong> mod for Hearts of Iron IV. Parses Clausewitz
-      scripts directly &mdash; always in sync with your installed mod.
-    </p>
-    <div class="hero-badges">
-      <span class="badge equip">1 500+ Equipment</span>
-      <span class="badge bat">300+ Battalions</span>
-      <span class="badge tank">60+ Tank Designs</span>
-      <span class="badge test">123+ Tests</span>
-    </div>
-    <div class="cta-group">
-      <a href="https://github.com/jaemin-capslock/hoi4-bice-tools" class="btn btn-primary">
-        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        View on GitHub
-      </a>
-      <a href="#quickstart" class="btn btn-secondary">Quick Start</a>
-    </div>
-  </header>
+<div id="loading"><div class="spinner"></div><p>Loading BICE data (0.7 MB)...</p></div>
 
-  <div class="container">
+<nav>
+  <span class="brand">BICE Stats</span>
+  <a href="#" data-page="home" class="active">Dashboard</a>
+  <a href="#" data-page="equipment">Equipment</a>
+  <a href="#" data-page="battalions">Battalions</a>
+  <a href="#" data-page="tanks">Tanks</a>
+  <a href="#" data-page="division">Division Designer</a>
+  <span class="nav-right">Static build &mdash; data from BICE mod</span>
+</nav>
 
-    <!-- Features -->
-    <section id="features">
-      <h2>Features</h2>
-      <div class="features">
-        <div class="feature-card">
-          <div class="icon">&#9881;</div>
-          <h3>Clausewitz Parser</h3>
-          <p>Parses HOI4 mod files directly. Equipment DB (1 500+ entries) and battalion DB (300+ types) built from source &mdash; always accurate to your mod version.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">&#9876;</div>
-          <h3>Division Calculator</h3>
-          <p>Full division stat aggregation matching HOI4 formulas. Supports line battalions, support companies, and category-aware doctrine modifiers.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">&#128736;</div>
-          <h3>Tank Designer (TRM)</h3>
-          <p>Modular Tank Rework system with 1 136 modules. 60+ pre-built German historical designs from PzKpfw I to Maus.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">&#128202;</div>
-          <h3>Flask Web UI</h3>
-          <p>Interactive browser with equipment/battalion tables, real-time division designer with drag-and-drop, stat computation, and icon rendering.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">&#128209;</div>
-          <h3>Excel Export</h3>
-          <p>Generate styled workbooks with division comparisons, equipment references, and battalion data with color-coded heat maps.</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">&#128736;</div>
-          <h3>Doctrine System</h3>
-          <p>WW1 doctrine presets with 55 cumulative techs. Category-aware multiplicative/additive stacking matching HOI4 internals.</p>
-        </div>
-      </div>
-    </section>
+<div class="container">
 
-    <!-- Quick Start -->
-    <section id="quickstart">
-      <h2>Quick Start</h2>
-      <pre><code><span class="cm"># Install dependencies</span>
-pip install openpyxl flask pillow
+<!-- ═══════════════════ HOME ═══════════════════ -->
+<div id="page-home" class="page">
+  <h1>BICE Division Stats Calculator</h1>
+  <div class="stat-cards" id="dash-cards"></div>
+  <h2>Quick Links</h2>
+  <ul style="list-style:none;padding:0">
+    <li style="margin:.3rem 0"><a href="#" data-page="equipment">Equipment Browser</a> &mdash; search and filter all equipment entries</li>
+    <li style="margin:.3rem 0"><a href="#" data-page="battalions">Battalion Reference</a> &mdash; slots, categories, combat stats for all battalion types</li>
+    <li style="margin:.3rem 0"><a href="#" data-page="tanks">German Tank Designs</a> &mdash; historical designs with computed stats</li>
+    <li style="margin:.3rem 0"><a href="#" data-page="division">Division Designer</a> &mdash; build divisions and compute aggregate stats</li>
+  </ul>
+  <h2>About</h2>
+  <p style="color:var(--dim);max-width:700px">
+    All data is pre-extracted from the Black ICE mod's Clausewitz script files.
+    The division calculator runs entirely in your browser &mdash; no server needed.
+    Source code on <a href="https://github.com/jaemin-capslock/hoi4-bice-tools">GitHub</a>.
+  </p>
+</div>
 
-<span class="cm"># Generate Excel workbook</span>
-python bice_stats_gen.py          <span class="cm"># → ~/Desktop/BICE_Stats.xlsx</span>
-
-<span class="cm"># Launch web UI</span>
-python app.py                     <span class="cm"># → http://127.0.0.1:5000</span>
-
-<span class="cm"># Run tests</span>
-python test_bice.py -v            <span class="cm"># 123+ tests</span></code></pre>
-    </section>
-
-    <!-- Modules -->
-    <section id="modules">
-      <h2>Modules</h2>
-      <div class="overflow-x">
-        <table class="mod-table">
-          <thead>
-            <tr><th>File</th><th>Purpose</th></tr>
-          </thead>
-          <tbody>
-            <tr><td><code>bice_parser.py</code></td><td>HOI4 Clausewitz format parser; builds equipment DB (1 500+ entries) and battalion DB (300+ sub-unit types)</td></tr>
-            <tr><td><code>bice_calc.py</code></td><td>Stat calculator: per-battalion and full-division aggregation with category-aware doctrine modifiers</td></tr>
-            <tr><td><code>bice_models.py</code></td><td>OOP interface: <code>BICEDatabase</code>, <code>BattalionType</code>, <code>EquippedBattalion</code>, <code>Division</code></td></tr>
-            <tr><td><code>bice_doctrines.py</code></td><td>Doctrine modifier presets (WW1 defensive/offensive; extensible for WW2 branches)</td></tr>
-            <tr><td><code>bice_tanks.py</code></td><td>TRM modular tank design system; 60+ German historical designs</td></tr>
-            <tr><td><code>bice_analysis.py</code></td><td>Division efficiency analysis, equipment value scoring, composite metrics</td></tr>
-            <tr><td><code>bice_german_templates.py</code></td><td>Pre-built German division templates (infantry, panzer, motorized, mountain, etc.)</td></tr>
-            <tr><td><code>bice_viz.py</code></td><td>Excel workbook writer with 4 sheets and color-coded styling</td></tr>
-            <tr><td><code>app.py</code></td><td>Flask web UI: equipment browser, battalion reference, tank designs, division designer</td></tr>
-            <tr><td><code>bice_stats_gen.py</code></td><td>CLI entry point: computes all templates and exports Excel workbook</td></tr>
-            <tr><td><code>test_bice.py</code></td><td>123+ unit and integration tests</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- API Usage -->
-    <section id="api">
-      <h2>API Usage</h2>
-
-      <h3>Per-Battalion Stats</h3>
-      <pre><code><span class="kw">from</span> bice_parser <span class="kw">import</span> build_equipment_db, build_battalion_db
-<span class="kw">from</span> bice_calc <span class="kw">import</span> calc_battalion
-
-equip_db = <span class="fn">build_equipment_db</span>()
-bat_db   = <span class="fn">build_battalion_db</span>()
-
-stats = <span class="fn">calc_battalion</span>(
-    <span class="st">"infantry"</span>,
-    [<span class="st">"infantry_equipment_2"</span>, <span class="st">"infantry_uniforms_2"</span>],
-    bat_db, equip_db,
-)
-<span class="cm"># → {"soft_attack": 2.1, "defense": 6.4, "breakthrough": 0.9, ...}</span></code></pre>
-
-      <h3>Division Designer</h3>
-      <pre><code><span class="kw">from</span> bice_models <span class="kw">import</span> BICEDatabase, Division
-<span class="kw">from</span> bice_doctrines <span class="kw">import</span> get_preset
-
-db = <span class="fn">BICEDatabase</span>()
-
-div = (<span class="fn">Division</span>(<span class="st">"9 Inf / 4 Art"</span>, db)
-    .<span class="fn">add_battalion</span>(db.<span class="fn">battalion</span>(<span class="st">"infantry"</span>).<span class="fn">equip_auto</span>(<span class="num">1939</span>), <span class="num">9</span>)
-    .<span class="fn">add_battalion</span>(db.<span class="fn">battalion</span>(<span class="st">"artillery_brigade"</span>).<span class="fn">equip_auto</span>(<span class="num">1939</span>), <span class="num">4</span>)
-    .<span class="fn">add_support</span>(db.<span class="fn">battalion</span>(<span class="st">"DIV_HQ"</span>).<span class="fn">equip</span>(<span class="st">"infantry_uniforms_2"</span>))
-    .<span class="fn">add_support</span>(db.<span class="fn">battalion</span>(<span class="st">"engineer"</span>).<span class="fn">equip_auto</span>(<span class="num">1939</span>)))
-
-stats = div.<span class="fn">compute</span>(<span class="fn">get_preset</span>(<span class="st">"ww1_full"</span>))</code></pre>
-
-      <h3>Tank Designer</h3>
-      <pre><code><span class="kw">from</span> bice_tanks <span class="kw">import</span> build_module_db, inject_tank_designs, GERMAN_TANK_DESIGNS
-
-module_db = <span class="fn">build_module_db</span>()   <span class="cm"># 1 136 tank modules</span>
-
-<span class="kw">for</span> d <span class="kw">in</span> GERMAN_TANK_DESIGNS:
-    stats = d.<span class="fn">compute_stats</span>(equip_db, module_db)
-    <span class="nb">print</span>(<span class="st">f"</span>{d.name}: SA={stats[<span class="st">'soft_attack'</span>]:.1f}<span class="st">"</span>)
-
-<span class="cm"># Inject into equipment DB for division use</span>
-<span class="fn">inject_tank_designs</span>(equip_db, module_db=module_db)</code></pre>
-    </section>
-
-    <!-- Aggregation Rules -->
-    <section id="aggregation">
-      <h2>Division Stat Aggregation</h2>
-      <p>These rules match HOI4's internal formulas:</p>
-      <div class="overflow-x">
-        <table class="agg-table">
-          <thead>
-            <tr><th>Stat</th><th>Rule</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>HP, Soft Attack, Hard Attack, Air Attack, IC Cost</td><td>Sum across all battalions (count &times; stat)</td></tr>
-            <tr><td>Organization, Defense, Breakthrough, Hardness</td><td>Weighted average by battalion manpower</td></tr>
-            <tr><td>Speed</td><td>Minimum across non-support transport equipment</td></tr>
-            <tr><td>Combat Width</td><td>Sum (support companies contribute 0)</td></tr>
-            <tr><td>Training Time</td><td>Maximum across all battalions</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Tank Designs -->
-    <section id="tanks">
-      <h2>German Tank Designs</h2>
-      <p>60+ historical designs computed from the TRM modular system:</p>
-      <div class="overflow-x">
-        <table class="tank-table">
-          <thead>
-            <tr><th style="text-align:left">Name</th><th>Class</th><th>SA</th><th>HA</th><th>AP</th><th>Armor</th><th>Hard%</th><th>Speed</th><th>IC</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>PzKpfw I A</td><td>Light</td><td>4.2</td><td>1.2</td><td>3.0</td><td>11.8</td><td>66%</td><td>8.7</td><td>10.8</td></tr>
-            <tr><td>PzKpfw II A</td><td>Light</td><td>6.3</td><td>3.3</td><td>14.1</td><td>13.6</td><td>69%</td><td>10.5</td><td>15.6</td></tr>
-            <tr><td>PzKpfw III E</td><td>Medium</td><td>7.4</td><td>5.7</td><td>19.6</td><td>20.0</td><td>72%</td><td>11.9</td><td>22.3</td></tr>
-            <tr><td>PzKpfw III J</td><td>Medium</td><td>8.9</td><td>10.9</td><td>32.6</td><td>29.0</td><td>76%</td><td>11.1</td><td>25.6</td></tr>
-            <tr><td>PzKpfw IV D</td><td>Medium</td><td>9.7</td><td>5.7</td><td>16.6</td><td>20.0</td><td>72%</td><td>11.5</td><td>24.7</td></tr>
-            <tr><td>PzKpfw IV F2</td><td>Medium</td><td>11.6</td><td>14.4</td><td>40.6</td><td>29.0</td><td>76%</td><td>10.7</td><td>28.2</td></tr>
-            <tr><td>PzKpfw IV H</td><td>Medium</td><td>11.8</td><td>15.1</td><td>42.6</td><td>40.8</td><td>80%</td><td>10.0</td><td>30.2</td></tr>
-            <tr><td>StuG III G</td><td>Medium (AG)</td><td>10.6</td><td>13.8</td><td>40.6</td><td>40.8</td><td>80%</td><td>10.0</td><td>26.7</td></tr>
-            <tr><td>Panther D</td><td>Med. Adv.</td><td>13.9</td><td>23.0</td><td>121.8</td><td>41.7</td><td>82%</td><td>13.3</td><td>39.4</td></tr>
-            <tr><td>Panther G</td><td>Med. Adv.</td><td>13.9</td><td>23.0</td><td>121.8</td><td>41.7</td><td>82%</td><td>13.3</td><td>39.8</td></tr>
-            <tr><td>Neubaufahrzeug</td><td>Heavy</td><td>10.4</td><td>7.1</td><td>36.1</td><td>14.9</td><td>70%</td><td>10.9</td><td>25.4</td></tr>
-            <tr><td>Tiger I</td><td>Heavy</td><td>16.0</td><td>19.3</td><td>47.8</td><td>47.9</td><td>81%</td><td>12.5</td><td>44.4</td></tr>
-            <tr><td>Tiger II</td><td>Heavy</td><td>17.6</td><td>29.9</td><td>148.9</td><td>65.2</td><td>86%</td><td>11.4</td><td>51.3</td></tr>
-            <tr><td>Maus</td><td>Superheavy</td><td>20.0</td><td>35.0</td><td>148.9</td><td>100.0</td><td>95%</td><td>5.2</td><td>80.0</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Doctrine Presets -->
-    <section id="doctrines">
-      <h2>Doctrine Presets</h2>
-      <p>WW1-era cumulative bonuses (defensive picks):</p>
-      <div class="overflow-x">
-        <table class="tank-table">
-          <thead>
-            <tr><th style="text-align:left">Category</th><th>Defense</th><th>Breakthrough</th><th>Soft Attack</th><th>Hard Attack</th><th>Flat Org</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>All Infantry</td><td>+50%</td><td>+19%</td><td>&mdash;</td><td>+10%</td><td>+5</td></tr>
-            <tr><td>Light Infantry</td><td>&mdash;</td><td>+19%</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
-            <tr><td>Artillery</td><td>+35%</td><td>+35%</td><td>+30%</td><td>&mdash;</td><td>+2</td></tr>
-            <tr><td>All Armor</td><td>+30%</td><td>+38%</td><td>+30%</td><td>+30%</td><td>+6</td></tr>
-            <tr><td>Cavalry</td><td>+5%</td><td>+5%</td><td>+10%</td><td>&mdash;</td><td>+10</td></tr>
-            <tr><td>DIV HQ</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>+10</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Installation -->
-    <section id="install">
-      <h2>Requirements</h2>
-      <ul style="list-style: none; padding: 0;">
-        <li style="margin-bottom: 0.5rem;">&#10003; Python 3.10+</li>
-        <li style="margin-bottom: 0.5rem;">&#10003; Hearts of Iron IV with <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1851181613" style="color: var(--accent);">Black ICE mod</a> installed</li>
-        <li style="margin-bottom: 0.5rem;">&#10003; <code>openpyxl</code> &mdash; Excel export</li>
-        <li style="margin-bottom: 0.5rem;">&#10003; <code>flask</code> &mdash; Web UI</li>
-        <li style="margin-bottom: 0.5rem;">&#10003; <code>pillow</code> &mdash; Icon rendering (TGA&rarr;PNG)</li>
-      </ul>
-    </section>
-
+<!-- ═══════════════════ EQUIPMENT ═══════════════════ -->
+<div id="page-equipment" class="page hidden">
+  <h1>Equipment Browser</h1>
+  <div class="filters">
+    <input id="eq-search" placeholder="Search equipment..." style="width:200px">
+    <select id="eq-family"><option value="">All families</option></select>
+    <span class="count" id="eq-count"></span>
   </div>
+  <div style="overflow-x:auto"><table id="eq-table">
+    <thead><tr><th>Name</th><th>Family</th><th>Year</th><th>SA</th><th>HA</th><th>Def</th><th>BT</th><th>AP</th><th>Armor</th><th>Hard%</th><th>Speed</th><th>IC</th><th>Rel%</th></tr></thead>
+    <tbody id="eq-body"></tbody>
+  </table></div>
+</div>
 
-  <footer>
-    <p>
-      Built for the <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=1851181613">Black ICE</a> community &bull;
-      <a href="https://github.com/jaemin-capslock/hoi4-bice-tools">Source on GitHub</a>
-    </p>
-  </footer>
+<!-- ═══════════════════ BATTALIONS ═══════════════════ -->
+<div id="page-battalions" class="page hidden">
+  <h1>Battalion Reference</h1>
+  <div class="filters">
+    <input id="bat-search" placeholder="Search battalions..." style="width:200px">
+    <select id="bat-group"><option value="">All groups</option></select>
+    <span class="count" id="bat-count"></span>
+  </div>
+  <div style="overflow-x:auto"><table id="bat-table">
+    <thead><tr><th>Name</th><th>Group</th><th>Role</th><th>Width</th><th>MP</th><th>Org</th><th>HP</th><th>SA</th><th>HA</th><th>Def</th><th>BT</th><th>Supply</th><th>Train</th><th>Equipment Slots</th></tr></thead>
+    <tbody id="bat-body"></tbody>
+  </table></div>
+</div>
 
+<!-- ═══════════════════ TANKS ═══════════════════ -->
+<div id="page-tanks" class="page hidden">
+  <h1>German Tank Designs</h1>
+  <p style="color:var(--dim);margin-bottom:.8rem">Stats computed from chassis + TRM modules.</p>
+  <div style="overflow-x:auto"><table>
+    <thead><tr><th>Name</th><th>Class</th><th>Year</th><th>SA</th><th>HA</th><th>Def</th><th>BT</th><th>AP</th><th>Armor</th><th>Hard%</th><th>Speed</th><th>IC</th><th>Rel%</th></tr></thead>
+    <tbody id="tank-body"></tbody>
+  </table></div>
+</div>
+
+<!-- ═══════════════════ DIVISION DESIGNER ═══════════════════ -->
+<div id="page-division" class="page hidden">
+  <h1>Division Designer</h1>
+  <div class="grid-2">
+    <div>
+      <h2>Battalion Picker</h2>
+      <div class="filters" style="margin-bottom:.4rem">
+        <input id="div-bat-search" placeholder="Search..." style="flex:1" oninput="filterDivBats()">
+        <select id="div-group-filter" onchange="filterDivBats()"><option value="">All</option></select>
+      </div>
+      <div class="bat-picker" id="div-bat-picker"></div>
+      <div style="margin-top:.4rem;display:flex;gap:.4rem;align-items:center;flex-wrap:wrap">
+        <label style="font-size:.78rem">Count:</label>
+        <input id="div-count" type="number" value="1" min="1" max="20" style="width:48px">
+        <label style="font-size:.78rem">Year:</label>
+        <input id="div-year" type="number" value="1939" min="1918" max="1948" style="width:56px">
+        <button onclick="addUnit(false)">+ Line</button>
+        <button onclick="addUnit(true)">+ Support</button>
+      </div>
+      <h2 style="margin-top:.8rem">Division Template</h2>
+      <div id="div-list"><p style="color:var(--dim);font-style:italic">No units added yet.</p></div>
+      <h2>Doctrine</h2>
+      <select id="div-doctrine"></select>
+      <div style="margin-top:.6rem">
+        <button class="primary" onclick="computeDivision()">Compute Division Stats</button>
+      </div>
+    </div>
+    <div>
+      <h2>Division Stats</h2>
+      <div id="div-results"><p style="color:var(--dim);font-style:italic">Add battalions and click Compute.</p></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+/* ══════════════════════════════════════════════
+   BICE STATIC CALCULATOR
+   All calculation logic ported from bice_calc.py
+   ══════════════════════════════════════════════ */
+
+// ── Global Data ──
+let DB = null;
+let eqIndex = {};  // id -> equipment entry
+let batIndex = {}; // id -> battalion entry
+
+// ── Navigation ──
+document.querySelectorAll('[data-page]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    showPage(el.dataset.page);
+  });
+});
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + name).classList.remove('hidden');
+  document.querySelectorAll('nav a[data-page]').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === name);
+  });
+  window.location.hash = name === 'home' ? '' : name;
+}
+
+// ── Load Data ──
+fetch('bice_data.json')
+  .then(r => r.json())
+  .then(data => { DB = data; init(); })
+  .catch(e => {
+    document.getElementById('loading').innerHTML =
+      '<p style="color:var(--red)">Failed to load data: ' + e.message + '</p>';
+  });
+
+function init() {
+  document.getElementById('loading').classList.add('hidden');
+  DB.equipment.forEach(e => eqIndex[e.id] = e);
+  DB.battalions.forEach(b => batIndex[b.id] = b);
+  initDashboard();
+  initEquipment();
+  initBattalions();
+  initTanks();
+  initDivision();
+  // Handle hash
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById('page-' + hash)) showPage(hash);
+}
+
+// ── Helpers ──
+function fmt(v, d) { d = d === undefined ? 1 : d; return v != null ? Number(v).toFixed(d) : ''; }
+function pct(v) { return v != null ? (v * 100).toFixed(0) + '%' : ''; }
+function titleCase(s) {
+  return s.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// ═══════════════════ DASHBOARD ═══════════════════
+function initDashboard() {
+  const families = new Set(DB.equipment.map(e => e.family).filter(Boolean));
+  const cards = [
+    ['Equipment', DB.equipment.length],
+    ['Battalions', DB.battalions.length],
+    ['Tank Designs', DB.tanks.length],
+    ['Families', families.size],
+    ['Doctrine Presets', Object.keys(DB.doctrines).length],
+  ];
+  document.getElementById('dash-cards').innerHTML = cards.map(
+    ([l,v]) => '<div class="sc"><div class="lb">' + l + '</div><div class="vl">' + v + '</div></div>'
+  ).join('');
+}
+
+// ═══════════════════ EQUIPMENT ═══════════════════
+function initEquipment() {
+  const families = [];
+  const seen = {};
+  DB.equipment.forEach(e => {
+    if (e.family && !seen[e.family]) { seen[e.family] = 1; families.push(e.family); }
+  });
+  families.sort();
+  const sel = document.getElementById('eq-family');
+  families.forEach(f => {
+    const o = document.createElement('option');
+    o.value = f; o.textContent = titleCase(f);
+    sel.appendChild(o);
+  });
+  const render = () => {
+    const q = document.getElementById('eq-search').value.toLowerCase();
+    const fam = sel.value;
+    const filtered = DB.equipment.filter(e => {
+      if (fam && e.family !== fam) return false;
+      if (q && e.id.toLowerCase().indexOf(q) === -1 && e.family.toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+    document.getElementById('eq-count').textContent = filtered.length + ' results';
+    const rows = [];
+    for (let i = 0; i < filtered.length; i++) {
+      const e = filtered[i];
+      rows.push('<tr><td>' + titleCase(e.id) + '</td><td>' + titleCase(e.family) +
+        '</td><td class="n">' + (e.year || '') + '</td><td class="n">' + fmt(e.soft_attack) +
+        '</td><td class="n">' + fmt(e.hard_attack) + '</td><td class="n">' + fmt(e.defense) +
+        '</td><td class="n">' + fmt(e.breakthrough) + '</td><td class="n">' + fmt(e.ap_attack) +
+        '</td><td class="n">' + fmt(e.armor_value) + '</td><td class="n">' + pct(e.hardness) +
+        '</td><td class="n">' + fmt(e.maximum_speed) + '</td><td class="n">' + fmt(e.build_cost_ic) +
+        '</td><td class="n">' + pct(e.reliability) + '</td></tr>');
+    }
+    document.getElementById('eq-body').innerHTML = rows.join('');
+  };
+  document.getElementById('eq-search').addEventListener('input', render);
+  sel.addEventListener('change', render);
+  render();
+}
+
+// ═══════════════════ BATTALIONS ═══════════════════
+function initBattalions() {
+  const groups = [];
+  const seen = {};
+  DB.battalions.forEach(b => {
+    if (b.group && !seen[b.group]) { seen[b.group] = 1; groups.push(b.group); }
+  });
+  groups.sort();
+  const sel = document.getElementById('bat-group');
+  groups.forEach(g => {
+    const o = document.createElement('option');
+    o.value = g; o.textContent = g;
+    sel.appendChild(o);
+  });
+  const render = () => {
+    const q = document.getElementById('bat-search').value.toLowerCase();
+    const grp = sel.value;
+    const filtered = DB.battalions.filter(b => {
+      if (grp && b.group !== grp) return false;
+      if (q && b.id.toLowerCase().indexOf(q) === -1 && titleCase(b.id).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+    document.getElementById('bat-count').textContent = filtered.length + ' results';
+    const rows = [];
+    for (let i = 0; i < filtered.length; i++) {
+      const b = filtered[i];
+      const role = b.group === 'support'
+        ? '<span class="tag sup">Support</span>'
+        : '<span class="tag">Line</span>';
+      const slotParts = [];
+      if (b.need) {
+        for (var s in b.need) {
+          slotParts.push('<span class="tag">' + titleCase(s) + ':' + b.need[s] + '</span>');
+        }
+      }
+      rows.push('<tr><td>' + titleCase(b.id) + '</td><td>' + b.group + '</td><td>' + role +
+        '</td><td class="n">' + (b.combat_width || '') + '</td><td class="n">' + (b.manpower || '') +
+        '</td><td class="n">' + (b.max_organisation || '') + '</td><td class="n">' + (b.max_strength || '') +
+        '</td><td class="n">' + fmt(b.soft_attack) + '</td><td class="n">' + fmt(b.hard_attack) +
+        '</td><td class="n">' + fmt(b.defense) + '</td><td class="n">' + fmt(b.breakthrough) +
+        '</td><td class="n">' + fmt(b.supply_consumption, 3) + '</td><td class="n">' + (b.training_time || '') +
+        '</td><td>' + slotParts.join('') + '</td></tr>');
+    }
+    document.getElementById('bat-body').innerHTML = rows.join('');
+  };
+  document.getElementById('bat-search').addEventListener('input', render);
+  sel.addEventListener('change', render);
+  render();
+}
+
+// ═══════════════════ TANKS ═══════════════════
+function initTanks() {
+  const rows = [];
+  for (let i = 0; i < DB.tanks.length; i++) {
+    const t = DB.tanks[i];
+    rows.push('<tr><td><strong>' + t.name + '</strong></td><td>' + t.tank_class +
+      '</td><td class="n">' + (t.year || '') + '</td><td class="n">' + fmt(t.soft_attack) +
+      '</td><td class="n">' + fmt(t.hard_attack) + '</td><td class="n">' + fmt(t.defense) +
+      '</td><td class="n">' + fmt(t.breakthrough) + '</td><td class="n">' + fmt(t.ap_attack) +
+      '</td><td class="n">' + fmt(t.armor_value) + '</td><td class="n">' + pct(t.hardness) +
+      '</td><td class="n">' + fmt(t.maximum_speed) + '</td><td class="n">' + fmt(t.build_cost_ic) +
+      '</td><td class="n">' + pct(t.reliability) + '</td></tr>');
+  }
+  document.getElementById('tank-body').innerHTML = rows.join('');
+}
+
+// ═══════════════════ DIVISION DESIGNER ═══════════════════
+var divSelectedBat = null;
+var divUnits = [];
+
+function initDivision() {
+  var groups = [];
+  var seen = {};
+  DB.battalions.forEach(function(b) {
+    if (b.group && !seen[b.group]) { seen[b.group] = 1; groups.push(b.group); }
+  });
+  groups.sort();
+  var gf = document.getElementById('div-group-filter');
+  groups.forEach(function(g) {
+    var o = document.createElement('option'); o.value = g; o.textContent = g; gf.appendChild(o);
+  });
+
+  var ds = document.getElementById('div-doctrine');
+  for (var k in DB.doctrines) {
+    var o = document.createElement('option');
+    o.value = k; o.textContent = DB.doctrines[k].name || k;
+    if (k === 'ww1_full') o.selected = true;
+    ds.appendChild(o);
+  }
+  filterDivBats();
+}
+
+function filterDivBats() {
+  var q = (document.getElementById('div-bat-search').value || '').toLowerCase();
+  var gf = document.getElementById('div-group-filter').value;
+  var filtered = DB.battalions.filter(function(b) {
+    if (gf && b.group !== gf) return false;
+    if (q && b.id.toLowerCase().indexOf(q) === -1 && titleCase(b.id).toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+  var grouped = {};
+  filtered.forEach(function(b) {
+    var g = b.group || 'other';
+    if (!grouped[g]) grouped[g] = [];
+    grouped[g].push(b);
+  });
+  var picker = document.getElementById('div-bat-picker');
+  var html = '';
+  var sortedGroups = Object.keys(grouped).sort();
+  for (var gi = 0; gi < sortedGroups.length; gi++) {
+    var g = sortedGroups[gi];
+    html += '<div class="group-hdr">' + g + ' (' + grouped[g].length + ')</div>';
+    for (var bi = 0; bi < grouped[g].length; bi++) {
+      var b = grouped[g][bi];
+      var sel = divSelectedBat === b.id ? ' sel' : '';
+      var sup = b.group === 'support' ? ' <span class="tag sup" style="font-size:.6rem">SUP</span>' : '';
+      var w = b.combat_width ? 'W:' + b.combat_width : '';
+      html += '<div class="bat-row' + sel + '" data-bid="' + b.id + '" data-sup="' + (b.group === 'support' ? 1 : 0) + '">' +
+        '<span class="bid">' + titleCase(b.id) + sup + '</span>' +
+        '<span class="meta">' + w + '</span></div>';
+    }
+  }
+  if (!filtered.length) html = '<div style="padding:.8rem;color:var(--dim)">No matches</div>';
+  picker.innerHTML = html;
+}
+
+document.getElementById('div-bat-picker').addEventListener('click', function(e) {
+  var row = e.target.closest('.bat-row');
+  if (!row) return;
+  divSelectedBat = row.dataset.bid;
+  document.querySelectorAll('#div-bat-picker .bat-row').forEach(function(r) { r.classList.remove('sel'); });
+  row.classList.add('sel');
+});
+document.getElementById('div-bat-picker').addEventListener('dblclick', function(e) {
+  var row = e.target.closest('.bat-row');
+  if (!row) return;
+  divSelectedBat = row.dataset.bid;
+  addUnit(row.dataset.sup === '1');
+});
+
+function addUnit(isSupport) {
+  if (!divSelectedBat) return;
+  var count = isSupport ? 1 : (parseInt(document.getElementById('div-count').value) || 1);
+  var year = parseInt(document.getElementById('div-year').value) || 1939;
+  divUnits.push({ type: divSelectedBat, count: count, year: year, support: isSupport });
+  renderDivList();
+}
+
+function removeUnit(idx) { divUnits.splice(idx, 1); renderDivList(); }
+
+function renderDivList() {
+  var el = document.getElementById('div-list');
+  if (!divUnits.length) { el.innerHTML = '<p style="color:var(--dim);font-style:italic">No units added yet.</p>'; return; }
+  var html = '<table><tr><th>Type</th><th>#</th><th>Year</th><th>Role</th><th></th></tr>';
+  for (var i = 0; i < divUnits.length; i++) {
+    var u = divUnits[i];
+    var role = u.support ? '<span class="tag sup">Support</span>' : 'Line';
+    html += '<tr><td>' + titleCase(u.type) + '</td><td class="n">' + u.count + '</td><td class="n">' + u.year +
+      '</td><td>' + role + '</td><td><button onclick="removeUnit(' + i + ')" style="color:var(--red);border-color:var(--red);background:transparent;font-size:.7rem;padding:.1rem .3rem">&times;</button></td></tr>';
+  }
+  el.innerHTML = html + '</table>';
+}
+
+// ── Auto-equip: pick best equipment for each slot up to given year ──
+function autoEquip(batId, year) {
+  var bat = batIndex[batId];
+  if (!bat) return {};
+  var assignment = {};
+  for (var archetype in bat.need) {
+    var variants = DB.family_index[archetype];
+    if (!variants || !variants.length) continue;
+    var best = variants[0].id;
+    for (var vi = 0; vi < variants.length; vi++) {
+      if (variants[vi].year <= year) best = variants[vi].id;
+    }
+    assignment[archetype] = best;
+  }
+  return assignment;
+}
+
+// ══════════════════════════════════════════════════════
+//  CORE CALCULATOR (ported from bice_calc.py)
+// ══════════════════════════════════════════════════════
+var COMBAT_STATS = [
+  'soft_attack','hard_attack','air_attack','defense','breakthrough',
+  'ap_attack','armor_value','hardness','reliability','maximum_speed',
+  'additional_collateral_damage','suppression','build_cost_ic','fuel_consumption'
+];
+
+function calcRawStats(bat, assignment) {
+  var stats = {};
+  for (var si = 0; si < COMBAT_STATS.length; si++) {
+    var s = COMBAT_STATS[si];
+    stats[s] = bat[s] || 0;
+  }
+  var need = bat.need || {};
+  for (var slot in assignment) {
+    var eid = assignment[slot];
+    var eq = eqIndex[eid];
+    if (!eq) continue;
+    var qty = need[slot] || 1;
+    for (var si2 = 0; si2 < COMBAT_STATS.length; si2++) {
+      var s2 = COMBAT_STATS[si2];
+      var val = eq[s2] || 0;
+      if (s2 === 'build_cost_ic') {
+        stats[s2] = (stats[s2] || 0) + val * qty;
+      } else {
+        stats[s2] = (stats[s2] || 0) + val;
+      }
+    }
+  }
+  return stats;
+}
+
+function applyDoctrineModifiers(stats, categories, modifiers) {
+  var out = {};
+  for (var k in stats) out[k] = stats[k];
+  var catSet = {};
+  for (var ci = 0; ci < categories.length; ci++) catSet[categories[ci]] = true;
+
+  // Accumulate multiplicative bonuses
+  var pctAccum = {};
+  var catMult = modifiers.category_mult || {};
+  for (var cat in catMult) {
+    if (catSet[cat]) {
+      var bonuses = catMult[cat];
+      for (var stat in bonuses) {
+        pctAccum[stat] = (pctAccum[stat] || 0) + bonuses[stat];
+      }
+    }
+  }
+  for (var stat2 in pctAccum) {
+    if (stat2 in out) out[stat2] = out[stat2] * (1 + pctAccum[stat2]);
+  }
+
+  // Flat bonuses
+  var catFlat = modifiers.category_flat || {};
+  for (var cat2 in catFlat) {
+    if (catSet[cat2]) {
+      var bonuses2 = catFlat[cat2];
+      for (var stat3 in bonuses2) {
+        if (stat3 in out) out[stat3] = out[stat3] + bonuses2[stat3];
+      }
+    }
+  }
+  return out;
+}
+
+function computeDivision() {
+  if (!divUnits.length) return;
+
+  var doctrineName = document.getElementById('div-doctrine').value;
+  var modifiers = DB.doctrines[doctrineName] || null;
+  var useDoctrine = modifiers && (modifiers.category_mult || modifiers.category_flat);
+
+  var totals = {
+    hp:0, width:0, manpower:0, weight:0, supply:0, training:0,
+    sa:0, ha:0, aa:0, collateral:0, suppression:0, ic:0, defense:0, bt:0
+  };
+  var wOrg = 0, wHard = 0;
+  var speeds = [];
+  var warnings = [];
+
+  for (var ui = 0; ui < divUnits.length; ui++) {
+    var unit = divUnits[ui];
+    var bat = batIndex[unit.type];
+    if (!bat) { warnings.push('Unknown: ' + unit.type); continue; }
+
+    var count = unit.count;
+    var assignment = autoEquip(unit.type, unit.year);
+
+    // Check for missing slots
+    for (var slot in bat.need) {
+      if (!(slot in assignment)) {
+        warnings.push(titleCase(unit.type) + ': missing equipment for ' + titleCase(slot));
+      }
+    }
+
+    var bstats = calcRawStats(bat, assignment);
+    var hp = bat.max_strength || 0;
+    var width = bat.combat_width || 0;
+    var manpower = bat.manpower || 0;
+    var weight = bat.weight || 0;
+    var supply = bat.supply_consumption || 0;
+    var org = bat.max_organisation || 0;
+    var training = bat.training_time || 0;
+
+    // Doctrine modifiers per-battalion BEFORE aggregation
+    if (useDoctrine) {
+      bstats['max_organisation'] = org;
+      bstats = applyDoctrineModifiers(bstats, bat.categories || [], modifiers);
+      org = bstats['max_organisation'] || org;
+      delete bstats['max_organisation'];
+    }
+
+    totals.hp += count * hp;
+    totals.width += count * width;
+    totals.manpower += count * manpower;
+    totals.weight += count * weight;
+    totals.supply += count * supply;
+    totals.training = Math.max(totals.training, training);
+    totals.sa += count * (bstats.soft_attack || 0);
+    totals.ha += count * (bstats.hard_attack || 0);
+    totals.aa += count * (bstats.air_attack || 0);
+    totals.defense += count * (bstats.defense || 0);
+    totals.bt += count * (bstats.breakthrough || 0);
+    totals.collateral += count * (bstats.additional_collateral_damage || 0);
+    totals.suppression += count * (bstats.suppression || 0);
+    totals.ic += count * (bstats.build_cost_ic || 0);
+
+    var mpW = count * manpower;
+    wOrg += mpW * org;
+    wHard += mpW * (bstats.hardness || 0);
+
+    // Speed: min transport speed across non-support line bats
+    if (!unit.support && bat.transport) {
+      var tEid = assignment[bat.transport] || bat.transport;
+      var tEq = eqIndex[tEid];
+      if (tEq && tEq.maximum_speed > 0) speeds.push(tEq.maximum_speed);
+    }
+  }
+
+  var totalMp = totals.manpower;
+  var orgAvg = totalMp > 0 ? wOrg / totalMp : 0;
+  var hardAvg = totalMp > 0 ? wHard / totalMp : 0;
+
+  var result = {
+    'Width': +totals.width.toFixed(1),
+    'Manpower': Math.round(totals.manpower),
+    'HP': +totals.hp.toFixed(2),
+    'Org': +orgAvg.toFixed(2),
+    'Soft Attack': +totals.sa.toFixed(2),
+    'Hard Attack': +totals.ha.toFixed(3),
+    'Air Attack': +totals.aa.toFixed(2),
+    'Defense': +totals.defense.toFixed(2),
+    'Breakthrough': +totals.bt.toFixed(2),
+    'Hardness': +hardAvg.toFixed(3),
+    'Speed (km/h)': speeds.length ? +Math.min.apply(null, speeds).toFixed(2) : 0,
+    'Suppression': +totals.suppression.toFixed(2),
+    'Collateral': Math.round(totals.collateral),
+    'IC Cost': +totals.ic.toFixed(1),
+    'Supply/day': +totals.supply.toFixed(3),
+    'Training (days)': totals.training
+  };
+
+  var order = ['Width','Manpower','HP','Org','Soft Attack','Hard Attack','Defense',
+    'Breakthrough','Air Attack','Hardness','Speed (km/h)',
+    'Suppression','Collateral','IC Cost','Supply/day','Training (days)'];
+
+  var html = '<div class="stat-cards">';
+  for (var oi = 0; oi < order.length; oi++) {
+    var k = order[oi];
+    if (result[k] !== undefined) {
+      var v = result[k];
+      var display = typeof v === 'number' ? v.toFixed(2) : v;
+      html += '<div class="sc"><div class="lb">' + k + '</div><div class="vl">' + display + '</div></div>';
+    }
+  }
+  html += '</div>';
+
+  if (warnings.length) {
+    html += '<h2>Warnings</h2>';
+    for (var wi = 0; wi < warnings.length; wi++) {
+      html += '<p class="warning">&bull; ' + warnings[wi] + '</p>';
+    }
+  }
+
+  // Division-level doctrine stats
+  if (useDoctrine && modifiers.division) {
+    html += '<h2>Division Modifiers (Doctrine)</h2><div class="stat-cards">';
+    for (var dk in modifiers.division) {
+      var dv = modifiers.division[dk];
+      var label = titleCase(dk);
+      var disp;
+      if (typeof dv === 'number') {
+        if (dv > 0 && dv < 1) disp = '+' + (dv * 100).toFixed(1) + '%';
+        else if (dv < 0 && dv > -1) disp = (dv * 100).toFixed(1) + '%';
+        else disp = (dv > 0 ? '+' : '') + dv.toFixed(2);
+      } else {
+        disp = dv;
+      }
+      html += '<div class="sc"><div class="lb">' + label + '</div><div class="vl">' + disp + '</div></div>';
+    }
+    html += '</div>';
+  }
+
+  document.getElementById('div-results').innerHTML = html;
+}
+</script>
 </body>
 </html>
