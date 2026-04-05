@@ -554,11 +554,13 @@ var COMBAT_STATS=['soft_attack','hard_attack','air_attack','defense','breakthrou
 
 function calcRawStats(bat,assignment){
   var stats={};for(var i=0;i<COMBAT_STATS.length;i++){var s=COMBAT_STATS[i];stats[s]=bat[s]||0}
-  var need=bat.need||{};
+  var need=bat.need||{};var relValues=[];
   for(var slot in assignment){var eid=assignment[slot];var eq=eqIndex[eid];if(!eq)continue;
     var qty=need[slot]||1;
     for(var j=0;j<COMBAT_STATS.length;j++){var s2=COMBAT_STATS[j];var val=eq[s2]||0;
-      stats[s2]=(stats[s2]||0)+(s2==='build_cost_ic'?val*qty:val)}}
+      if(s2==='reliability'){if(val)relValues.push(val)}
+      else{stats[s2]=(stats[s2]||0)+(s2==='build_cost_ic'?val*qty:val)}}}
+  if(relValues.length)stats.reliability=relValues.reduce(function(a,b){return a+b},0)/relValues.length;
   return stats}
 
 function applyDoctrineModifiers(stats,categories,modifiers){
